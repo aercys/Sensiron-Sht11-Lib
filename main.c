@@ -4,7 +4,7 @@
  * Temperature & Humidity Measurement Application
  * Author: aercys
  * E-Mail: aercys@gmail.com
- * Web: elektrikelektronik.org
+ * Web: i2xr.com
  * Date: 10/03/2015
  *
  */
