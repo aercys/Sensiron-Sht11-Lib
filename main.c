@@ -63,56 +63,37 @@ float calculateMeasuredData(uint16_t measuredData, uint8_t value);
 
 FILE uart_output = FDEV_SETUP_STREAM(send_uart_char, NULL, _FDEV_SETUP_WRITE);
 
-
 int main(void) {
     
     float humidity_data, humidity_data_com, temperature_data;
     uint16_t humidityLin;
-    
-    
+ 
     _delay_us(11);                  // Wait for sensor initialization
    
     serial_init();
     stdout = &uart_output;
     
     while (1) {
-    
-        
         initialize_transmisson();   // Initilize the sensor to send command
-        
-        
         send_command(temperature);
-        
         _delay_us(80);              // Wait for measurement to complete
-        
         temperature_data = calculateMeasuredData(read_data(), temperature);
-        
         reset();
-        
         send_command(humidity);
         _delay_us(80);
-        
         humidityLin = read_data();
         humidity_data = calculateMeasuredData(humidityLin, humidity);
         humidity_data_com = (temperature_data - 25) * (0.01 + 0.00008 * humidityLin) + humidity_data;
-        
         printf("Humidity: %.2f (Compansated: %.2f) Temp: %.2f \n",
                (double)humidity_data, (double)humidity_data_com, (double)temperature_data);
-        
         reset();
         _delay_ms(1000);
-        
     }
     
     return 0; // never reached
 }
 
-
-
-
 void initialize_transmisson() {
-    
-    
     /*
      * SHT11
      * Start Sequence
@@ -122,12 +103,8 @@ void initialize_transmisson() {
      * DATA   |_____|
      *
      */
-    
-    
     data_out;
-    
     data_high;
-    
     _delay_us(2);
     sck_high;
     _delay_us(2);
@@ -140,19 +117,13 @@ void initialize_transmisson() {
     data_high;
     _delay_us(2);
     sck_low;
-    
 }
 
-
-
 void send_command(uint8_t command) {
-    
     _delay_us(4);
-    
     data_out;                               // Enable data as output port
     
     for (int i = 0; i < 8; i++) {
-        
         if (0x01 & (command >> (7-i))) {
             data_high;
         } else {
@@ -164,75 +135,56 @@ void send_command(uint8_t command) {
         sck_low;
         
         if (i == 7) {
-            
             data_in;
             data_high;
-            
             while ((PINB & (1 << DATA)));   // Wait for data line low
-        
         }
-       
     }
     
     _delay_us(4);
     sck_high;
     _delay_us(4);
     sck_low;
- 
-    
 }
 
 void reset() {
-    
     data_out;
     data_high;
+
     for (int i = 0; i < 9; i++) {
         _delay_us(4);
         sck_high;
         _delay_us(4);
         sck_low;
     }
-    
     initialize_transmisson();
 }
 
 
 
 uint16_t read_data() {
-    
     uint8_t dataL, dataH;
     uint16_t measured;
-    
     dataL = 0x00;
     dataH = 0x00;
-
-    
-    
     data_in;
     data_high;
     
      while (PINB & (1<<DATA));
-    
     /*
      *
      * Start receiving first byte
      *
      */
-    
-    
     for (int j = 0; j < 8; j++) {
-        
         sck_high;
         _delay_us(4);
-        
-       
+    
         if ((PINB & (1 << PINB0))) {
             dataH |= (1 << (7 - j));
         } else {
             dataH &= ~(1 << (7 - j));
-            
         }
-        
         sck_low;
         _delay_us(4);
     }
@@ -248,23 +200,19 @@ uint16_t read_data() {
      
      
     data_out;
-    
     data_low;
     _delay_us(4);
     sck_high;
     _delay_us(4);
     sck_low;
     _delay_us(4);
-    
     data_in;
     data_high;
     
-
     for (int i = 0; i < 8; i++) {
-        
         sck_high;
         _delay_us(4);
-        
+
         if ((PINB & (1 << PINB0))) {
             dataL |= (1 << (7 - i));
             
@@ -274,22 +222,15 @@ uint16_t read_data() {
         
         sck_low;
         _delay_us(4);
-        
     }
-   
-  
-   
+
     measured = (dataH << 8) | dataL;
-    
     return measured;
-    
-    
 }
 
 float calculateMeasuredData(uint16_t measuredData, uint8_t value) {
-    
     float humiLin, tempLin;
-    
+   
     switch (value) {
         
         case humidity:
@@ -310,7 +251,6 @@ float calculateMeasuredData(uint16_t measuredData, uint8_t value) {
 
 
 void serial_init() {
-    
     /*
      *
      * Initialize UART,
@@ -318,11 +258,9 @@ void serial_init() {
      * No Parity
      *
      */
-
     UCSR0B = (1 << TXEN0);
     UBRR0L = 51;
     UCSR0C = (1 << UCSZ01) | (1 << UCSZ00);
-    
 }
 
 void send_uart_char(unsigned char serial_data, FILE *stream) {
@@ -338,7 +276,6 @@ void send_uart_char(unsigned char serial_data, FILE *stream) {
     }
     
     while (!(UCSR0A & (1 << UDRE0)));
-    
     UDR0 = serial_data;
     
 }
