@@ -114,6 +114,27 @@ float calculateMeasuredData(uint16_t measuredData, uint8_t value) {
     return 1;
 }
 
+SHTData shtSense() {
+    uint8_t _temperature, _humidity;
+    uint16_t __humidity;
+    SHTData data;
+    initialize_transmisson();   // Initilize the sensor to send command
+    send_command(temperature);
+    _delay_us(80);              // Wait for measurement to complete
+    _temperature = calculateMeasuredData(read_data(), temperature);
+    reset();
+    send_command(humidity);
+    _delay_us(80);
+    __humidity = read_data();
+    _humidity = calculateMeasuredData(__humidity, humidity);
+    _humidity = (_temperature - 25) * (0.01 + 0.00008 * __humidity) + _humidity;
+    reset();
+    data.Temperature = _temperature;
+    data.Humidity = _humidity;
+    _delay_ms(100);
+    return data;
+}
+
 
 void serial_init() {
     /*

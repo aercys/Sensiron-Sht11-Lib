@@ -29,6 +29,14 @@
 #define data_out DDRB = (1 << SCK) | (1 << DATA)
 #define data_in DDRB = (1 << SCK) | ~(1 << DATA)
 
+// SHT Data type
+typedef struct {
+    uint8_t Temperature;
+    uint8_t Humidity;
+} SHTData;
+
+
+
 // Function prototypes -----------------------------------------------------------------------------------
 
 void initialize_transmisson(void);
@@ -38,6 +46,10 @@ void serial_init(void);
 uint16_t read_data(void);
 void send_uart_char(unsigned char serial_data, FILE *stream);
 float calculateMeasuredData(uint16_t measuredData, uint8_t value);
+void receiveBytes(uint8_t *target);
+void ack(void);
+SHTData shtSense(void);
 
 FILE uart_output = FDEV_SETUP_STREAM(send_uart_char, NULL, _FDEV_SETUP_WRITE);
+
 #endif /* sht_h */

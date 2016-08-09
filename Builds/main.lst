@@ -6,9 +6,9 @@
    6               	__zero_reg__ = 1
    8               		.text
    9               	.Ltext0:
- 112               	.global	send_uart_char
- 114               	send_uart_char:
- 116               	.Ltext1:
+ 115               	.global	send_uart_char
+ 117               	send_uart_char:
+ 119               	.Ltext1:
    1:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c **** //
    2:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c **** //  sht.c
    3:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c **** //  avrSHT
@@ -125,73 +125,94 @@
  114:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     return 1;
  115:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c **** }
  116:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c **** 
- 117:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c **** 
- 118:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c **** void serial_init() {
- 119:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     /*
- 120:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****      *
- 121:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****      * Initialize UART,
- 122:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****      * 8 bit frame, 1 Stop Bit
- 123:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****      * No Parity
- 124:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****      *
- 125:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****      */
- 126:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     UCSR0B = (1 << TXEN0);
- 127:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     UBRR0L = 51;
- 128:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     UCSR0C = (1 << UCSZ01) | (1 << UCSZ00);
- 129:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c **** }
- 130:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c **** 
- 131:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c **** void send_uart_char(unsigned char serial_data, FILE *stream) {
- 118               	.LM0:
- 119               	.LFBB1:
- 120 0000 CF93      		push r28
- 121               	/* prologue: function */
- 122               	/* frame size = 0 */
- 123               	/* stack size = 1 */
- 124               	.L__stack_usage = 1
- 125 0002 C82F      		mov r28,r24
- 132:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     if (serial_data == '\n') { // Send each byte until reached \n character
- 127               	.LM1:
- 128 0004 8A30      		cpi r24,lo8(10)
- 129 0006 01F4      		brne .L4
- 133:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****         send_uart_char('\r', stream);
- 131               	.LM2:
- 132 0008 8DE0      		ldi r24,lo8(13)
- 133 000a 0E94 0000 		call send_uart_char
- 134               	.L4:
- 134:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     }
- 135:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     
- 136:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     while (!(UCSR0A & (1 << UDRE0)));
- 136               	.LM3:
- 137 000e 8091 C000 		lds r24,192
- 138 0012 85FF      		sbrs r24,5
- 139 0014 00C0      		rjmp .L4
- 137:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     UDR0 = serial_data;
- 141               	.LM4:
- 142 0016 C093 C600 		sts 198,r28
- 143               	/* epilogue start */
- 138:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c **** }
- 145               	.LM5:
- 146 001a CF91      		pop r28
- 147 001c 0895      		ret
- 149               	.Lscope1:
- 151               	.global	initialize_transmisson
- 153               	initialize_transmisson:
+ 117:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c **** SHTData shtSense() {
+ 118:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     uint8_t _temperature, _humidity;
+ 119:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     uint16_t __humidity;
+ 120:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     SHTData data;
+ 121:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     initialize_transmisson();   // Initilize the sensor to send command
+ 122:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     send_command(temperature);
+ 123:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     _delay_us(80);              // Wait for measurement to complete
+ 124:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     _temperature = calculateMeasuredData(read_data(), temperature);
+ 125:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     reset();
+ 126:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     send_command(humidity);
+ 127:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     _delay_us(80);
+ 128:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     __humidity = read_data();
+ 129:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     _humidity = calculateMeasuredData(__humidity, humidity);
+ 130:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     _humidity = (_temperature - 25) * (0.01 + 0.00008 * __humidity) + _humidity;
+ 131:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     reset();
+ 132:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     data.Temperature = _temperature;
+ 133:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     data.Humidity = _humidity;
+ 134:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     _delay_ms(100);
+ 135:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     return data;
+ 136:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c **** }
+ 137:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c **** 
+ 138:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c **** 
+ 139:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c **** void serial_init() {
+ 140:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     /*
+ 141:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****      *
+ 142:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****      * Initialize UART,
+ 143:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****      * 8 bit frame, 1 Stop Bit
+ 144:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****      * No Parity
+ 145:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****      *
+ 146:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****      */
+ 147:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     UCSR0B = (1 << TXEN0);
+ 148:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     UBRR0L = 51;
+ 149:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     UCSR0C = (1 << UCSZ01) | (1 << UCSZ00);
+ 150:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c **** }
+ 151:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c **** 
+ 152:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c **** void send_uart_char(unsigned char serial_data, FILE *stream) {
+ 121               	.LM0:
+ 122               	.LFBB1:
+ 123 0000 CF93      		push r28
+ 124               	/* prologue: function */
+ 125               	/* frame size = 0 */
+ 126               	/* stack size = 1 */
+ 127               	.L__stack_usage = 1
+ 128 0002 C82F      		mov r28,r24
+ 153:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     if (serial_data == '\n') { // Send each byte until reached \n character
+ 130               	.LM1:
+ 131 0004 8A30      		cpi r24,lo8(10)
+ 132 0006 01F4      		brne .L4
+ 154:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****         send_uart_char('\r', stream);
+ 134               	.LM2:
+ 135 0008 8DE0      		ldi r24,lo8(13)
+ 136 000a 0E94 0000 		call send_uart_char
+ 137               	.L4:
+ 155:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     }
+ 156:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     
+ 157:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     while (!(UCSR0A & (1 << UDRE0)));
+ 139               	.LM3:
+ 140 000e 8091 C000 		lds r24,192
+ 141 0012 85FF      		sbrs r24,5
+ 142 0014 00C0      		rjmp .L4
+ 158:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     UDR0 = serial_data;
+ 144               	.LM4:
+ 145 0016 C093 C600 		sts 198,r28
+ 146               	/* epilogue start */
+ 159:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c **** }
+ 148               	.LM5:
+ 149 001a CF91      		pop r28
+ 150 001c 0895      		ret
+ 152               	.Lscope1:
+ 154               	.global	initialize_transmisson
+ 156               	initialize_transmisson:
   11:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c **** void initialize_transmisson() {
- 155               	.LM6:
- 156               	.LFBB2:
- 157               	/* prologue: function */
- 158               	/* frame size = 0 */
- 159               	/* stack size = 0 */
- 160               	.L__stack_usage = 0
+ 158               	.LM6:
+ 159               	.LFBB2:
+ 160               	/* prologue: function */
+ 161               	/* frame size = 0 */
+ 162               	/* stack size = 0 */
+ 163               	.L__stack_usage = 0
   21:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     data_out;
- 162               	.LM7:
- 163 001e 83E0      		ldi r24,lo8(3)
- 164 0020 84B9      		out 0x4,r24
+ 165               	.LM7:
+ 166 001e 83E0      		ldi r24,lo8(3)
+ 167 0020 84B9      		out 0x4,r24
   22:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     data_high;
- 166               	.LM8:
- 167 0022 289A      		sbi 0x5,0
- 168               	.LBB49:
- 169               	.LBB50:
- 171               	.Ltext2:
+ 169               	.LM8:
+ 170 0022 289A      		sbi 0x5,0
+ 171               	.LBB50:
+ 172               	.LBB51:
+ 174               	.Ltext2:
    1:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** /* Copyright (c) 2002, Marek Michalkiewicz
    2:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    Copyright (c) 2004,2005,2007 Joerg Wunsch
    3:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h ****    Copyright (c) 2007  Florin-Viorel Petrov
@@ -437,659 +458,913 @@
  243:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 	#endif
  244:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
  245:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 	__builtin_avr_delay_cycles(__ticks_dc);
- 173               	.LM9:
- 174 0024 85E0      		ldi r24,lo8(5)
- 175 0026 8A95      		1: dec r24
- 176 0028 01F4      		brne 1b
- 177 002a 0000      		nop
- 178               	.LBE50:
- 179               	.LBE49:
- 181               	.Ltext3:
+ 176               	.LM9:
+ 177 0024 85E0      		ldi r24,lo8(5)
+ 178 0026 8A95      		1: dec r24
+ 179 0028 01F4      		brne 1b
+ 180 002a 0000      		nop
+ 181               	.LBE51:
+ 182               	.LBE50:
+ 184               	.Ltext3:
   24:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     sck_high;
- 183               	.LM10:
- 184 002c 299A      		sbi 0x5,1
- 185               	.LBB51:
- 186               	.LBB52:
- 188               	.Ltext4:
- 190               	.LM11:
- 191 002e 85E0      		ldi r24,lo8(5)
- 192 0030 8A95      		1: dec r24
- 193 0032 01F4      		brne 1b
- 194 0034 0000      		nop
- 195               	.LBE52:
- 196               	.LBE51:
- 198               	.Ltext5:
+ 186               	.LM10:
+ 187 002c 299A      		sbi 0x5,1
+ 188               	.LBB52:
+ 189               	.LBB53:
+ 191               	.Ltext4:
+ 193               	.LM11:
+ 194 002e 85E0      		ldi r24,lo8(5)
+ 195 0030 8A95      		1: dec r24
+ 196 0032 01F4      		brne 1b
+ 197 0034 0000      		nop
+ 198               	.LBE53:
+ 199               	.LBE52:
+ 201               	.Ltext5:
   26:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     data_low;
- 200               	.LM12:
- 201 0036 2898      		cbi 0x5,0
- 202               	.LBB53:
- 203               	.LBB54:
- 205               	.Ltext6:
- 207               	.LM13:
- 208 0038 85E0      		ldi r24,lo8(5)
- 209 003a 8A95      		1: dec r24
- 210 003c 01F4      		brne 1b
- 211 003e 0000      		nop
- 212               	.LBE54:
- 213               	.LBE53:
- 215               	.Ltext7:
+ 203               	.LM12:
+ 204 0036 2898      		cbi 0x5,0
+ 205               	.LBB54:
+ 206               	.LBB55:
+ 208               	.Ltext6:
+ 210               	.LM13:
+ 211 0038 85E0      		ldi r24,lo8(5)
+ 212 003a 8A95      		1: dec r24
+ 213 003c 01F4      		brne 1b
+ 214 003e 0000      		nop
+ 215               	.LBE55:
+ 216               	.LBE54:
+ 218               	.Ltext7:
   28:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     sck_low;
- 217               	.LM14:
- 218 0040 2998      		cbi 0x5,1
- 219               	.LBB55:
- 220               	.LBB56:
- 222               	.Ltext8:
- 224               	.LM15:
- 225 0042 85E1      		ldi r24,lo8(21)
- 226 0044 8A95      		1: dec r24
- 227 0046 01F4      		brne 1b
- 228 0048 0000      		nop
- 229               	.LBE56:
- 230               	.LBE55:
- 232               	.Ltext9:
+ 220               	.LM14:
+ 221 0040 2998      		cbi 0x5,1
+ 222               	.LBB56:
+ 223               	.LBB57:
+ 225               	.Ltext8:
+ 227               	.LM15:
+ 228 0042 85E1      		ldi r24,lo8(21)
+ 229 0044 8A95      		1: dec r24
+ 230 0046 01F4      		brne 1b
+ 231 0048 0000      		nop
+ 232               	.LBE57:
+ 233               	.LBE56:
+ 235               	.Ltext9:
   30:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     sck_high;
- 234               	.LM16:
- 235 004a 299A      		sbi 0x5,1
- 236               	.LBB57:
- 237               	.LBB58:
- 239               	.Ltext10:
- 241               	.LM17:
- 242 004c 85E0      		ldi r24,lo8(5)
- 243 004e 8A95      		1: dec r24
- 244 0050 01F4      		brne 1b
- 245 0052 0000      		nop
- 246               	.LBE58:
- 247               	.LBE57:
- 249               	.Ltext11:
+ 237               	.LM16:
+ 238 004a 299A      		sbi 0x5,1
+ 239               	.LBB58:
+ 240               	.LBB59:
+ 242               	.Ltext10:
+ 244               	.LM17:
+ 245 004c 85E0      		ldi r24,lo8(5)
+ 246 004e 8A95      		1: dec r24
+ 247 0050 01F4      		brne 1b
+ 248 0052 0000      		nop
+ 249               	.LBE59:
+ 250               	.LBE58:
+ 252               	.Ltext11:
   32:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     data_high;
- 251               	.LM18:
- 252 0054 289A      		sbi 0x5,0
- 253               	.LBB59:
- 254               	.LBB60:
- 256               	.Ltext12:
- 258               	.LM19:
- 259 0056 85E0      		ldi r24,lo8(5)
- 260 0058 8A95      		1: dec r24
- 261 005a 01F4      		brne 1b
- 262 005c 0000      		nop
- 263               	.LBE60:
- 264               	.LBE59:
- 266               	.Ltext13:
+ 254               	.LM18:
+ 255 0054 289A      		sbi 0x5,0
+ 256               	.LBB60:
+ 257               	.LBB61:
+ 259               	.Ltext12:
+ 261               	.LM19:
+ 262 0056 85E0      		ldi r24,lo8(5)
+ 263 0058 8A95      		1: dec r24
+ 264 005a 01F4      		brne 1b
+ 265 005c 0000      		nop
+ 266               	.LBE61:
+ 267               	.LBE60:
+ 269               	.Ltext13:
   34:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     sck_low;
- 268               	.LM20:
- 269 005e 2998      		cbi 0x5,1
- 270 0060 0895      		ret
- 272               	.Lscope2:
- 275               	.global	send_command
- 277               	send_command:
+ 271               	.LM20:
+ 272 005e 2998      		cbi 0x5,1
+ 273 0060 0895      		ret
+ 275               	.Lscope2:
+ 278               	.global	send_command
+ 280               	send_command:
   37:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c **** void send_command(uint8_t command) {
- 279               	.LM21:
- 280               	.LFBB3:
- 281               	/* prologue: function */
- 282               	/* frame size = 0 */
- 283               	/* stack size = 0 */
- 284               	.L__stack_usage = 0
- 285               	.LBB61:
- 286               	.LBB62:
- 288               	.Ltext14:
- 290               	.LM22:
- 291 0062 6AE0      		ldi r22,lo8(10)
- 292 0064 6A95      		1: dec r22
- 293 0066 01F4      		brne 1b
- 294 0068 00C0      		rjmp .
- 295               	.LBE62:
- 296               	.LBE61:
- 298               	.Ltext15:
+ 282               	.LM21:
+ 283               	.LFBB3:
+ 284               	/* prologue: function */
+ 285               	/* frame size = 0 */
+ 286               	/* stack size = 0 */
+ 287               	.L__stack_usage = 0
+ 288               	.LBB62:
+ 289               	.LBB63:
+ 291               	.Ltext14:
+ 293               	.LM22:
+ 294 0062 6AE0      		ldi r22,lo8(10)
+ 295 0064 6A95      		1: dec r22
+ 296 0066 01F4      		brne 1b
+ 297 0068 00C0      		rjmp .
+ 298               	.LBE63:
+ 299               	.LBE62:
+ 301               	.Ltext15:
   39:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     data_out;                               // Enable data as output port
- 300               	.LM23:
- 301 006a 93E0      		ldi r25,lo8(3)
- 302 006c 94B9      		out 0x4,r25
- 303               	.LBB63:
+ 303               	.LM23:
+ 304 006a 93E0      		ldi r25,lo8(3)
+ 305 006c 94B9      		out 0x4,r25
+ 306               	.LBB64:
   41:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     for (int i = 0; i < 8; i++) {
- 305               	.LM24:
- 306 006e 20E0      		ldi r18,0
- 307 0070 30E0      		ldi r19,0
+ 308               	.LM24:
+ 309 006e 20E0      		ldi r18,0
+ 310 0070 30E0      		ldi r19,0
   42:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****         if (0x01 & (command >> (7-i))) {
- 309               	.LM25:
- 310 0072 90E0      		ldi r25,0
- 311 0074 47E0      		ldi r20,lo8(7)
- 312 0076 50E0      		ldi r21,0
+ 312               	.LM25:
+ 313 0072 90E0      		ldi r25,0
+ 314 0074 47E0      		ldi r20,lo8(7)
+ 315 0076 50E0      		ldi r21,0
   54:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****             data_in;
- 314               	.LM26:
- 315 0078 EEEF      		ldi r30,lo8(-2)
- 316               	.L15:
- 317 007a BA01      		movw r22,r20
- 318 007c 621B      		sub r22,r18
- 319 007e 730B      		sbc r23,r19
+ 317               	.LM26:
+ 318 0078 EEEF      		ldi r30,lo8(-2)
+ 319               	.L15:
+ 320 007a BA01      		movw r22,r20
+ 321 007c 621B      		sub r22,r18
+ 322 007e 730B      		sbc r23,r19
   42:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****         if (0x01 & (command >> (7-i))) {
- 321               	.LM27:
- 322 0080 DC01      		movw r26,r24
- 323 0082 00C0      		rjmp 2f
- 324               		1:
- 325 0084 B595      		asr r27
- 326 0086 A795      		ror r26
- 327               		2:
- 328 0088 6A95      		dec r22
- 329 008a 02F4      		brpl 1b
- 330 008c A0FF      		sbrs r26,0
- 331 008e 00C0      		rjmp .L8
+ 324               	.LM27:
+ 325 0080 DC01      		movw r26,r24
+ 326 0082 00C0      		rjmp 2f
+ 327               		1:
+ 328 0084 B595      		asr r27
+ 329 0086 A795      		ror r26
+ 330               		2:
+ 331 0088 6A95      		dec r22
+ 332 008a 02F4      		brpl 1b
+ 333 008c A0FF      		sbrs r26,0
+ 334 008e 00C0      		rjmp .L8
   43:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****             data_high;
- 333               	.LM28:
- 334 0090 289A      		sbi 0x5,0
- 335 0092 00C0      		rjmp .L9
- 336               	.L8:
+ 336               	.LM28:
+ 337 0090 289A      		sbi 0x5,0
+ 338 0092 00C0      		rjmp .L9
+ 339               	.L8:
   45:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****             data_low;
- 338               	.LM29:
- 339 0094 2898      		cbi 0x5,0
- 340               	.L9:
- 341               	.LBB64:
- 342               	.LBB65:
- 344               	.Ltext16:
- 346               	.LM30:
- 347 0096 BAE0      		ldi r27,lo8(10)
- 348 0098 BA95      		1: dec r27
- 349 009a 01F4      		brne 1b
- 350 009c 00C0      		rjmp .
- 351               	.LBE65:
- 352               	.LBE64:
- 354               	.Ltext17:
+ 341               	.LM29:
+ 342 0094 2898      		cbi 0x5,0
+ 343               	.L9:
+ 344               	.LBB65:
+ 345               	.LBB66:
+ 347               	.Ltext16:
+ 349               	.LM30:
+ 350 0096 BAE0      		ldi r27,lo8(10)
+ 351 0098 BA95      		1: dec r27
+ 352 009a 01F4      		brne 1b
+ 353 009c 00C0      		rjmp .
+ 354               	.LBE66:
+ 355               	.LBE65:
+ 357               	.Ltext17:
   49:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****         sck_high;
- 356               	.LM31:
- 357 009e 299A      		sbi 0x5,1
- 358               	.LBB66:
- 359               	.LBB67:
- 361               	.Ltext18:
- 363               	.LM32:
- 364 00a0 6AE0      		ldi r22,lo8(10)
- 365 00a2 6A95      		1: dec r22
- 366 00a4 01F4      		brne 1b
- 367 00a6 00C0      		rjmp .
- 368               	.LBE67:
- 369               	.LBE66:
- 371               	.Ltext19:
+ 359               	.LM31:
+ 360 009e 299A      		sbi 0x5,1
+ 361               	.LBB67:
+ 362               	.LBB68:
+ 364               	.Ltext18:
+ 366               	.LM32:
+ 367 00a0 6AE0      		ldi r22,lo8(10)
+ 368 00a2 6A95      		1: dec r22
+ 369 00a4 01F4      		brne 1b
+ 370 00a6 00C0      		rjmp .
+ 371               	.LBE68:
+ 372               	.LBE67:
+ 374               	.Ltext19:
   51:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****         sck_low;
- 373               	.LM33:
- 374 00a8 2998      		cbi 0x5,1
+ 376               	.LM33:
+ 377 00a8 2998      		cbi 0x5,1
   53:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****         if (i == 7) {
- 376               	.LM34:
- 377 00aa 2730      		cpi r18,7
- 378 00ac 3105      		cpc r19,__zero_reg__
- 379 00ae 01F0      		breq .L10
- 380               	.L13:
+ 379               	.LM34:
+ 380 00aa 2730      		cpi r18,7
+ 381 00ac 3105      		cpc r19,__zero_reg__
+ 382 00ae 01F0      		breq .L10
+ 383               	.L13:
   41:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     for (int i = 0; i < 8; i++) {
- 382               	.LM35:
- 383 00b0 2F5F      		subi r18,-1
- 384 00b2 3F4F      		sbci r19,-1
- 385 00b4 2830      		cpi r18,8
- 386 00b6 3105      		cpc r19,__zero_reg__
- 387 00b8 01F4      		brne .L15
- 388               	.LBE63:
- 389               	.LBB68:
- 390               	.LBB69:
- 392               	.Ltext20:
- 394               	.LM36:
- 395 00ba 8AE0      		ldi r24,lo8(10)
- 396 00bc 8A95      		1: dec r24
- 397 00be 01F4      		brne 1b
- 398 00c0 00C0      		rjmp .
- 399               	.LBE69:
- 400               	.LBE68:
- 402               	.Ltext21:
+ 385               	.LM35:
+ 386 00b0 2F5F      		subi r18,-1
+ 387 00b2 3F4F      		sbci r19,-1
+ 388 00b4 2830      		cpi r18,8
+ 389 00b6 3105      		cpc r19,__zero_reg__
+ 390 00b8 01F4      		brne .L15
+ 391               	.LBE64:
+ 392               	.LBB69:
+ 393               	.LBB70:
+ 395               	.Ltext20:
+ 397               	.LM36:
+ 398 00ba 8AE0      		ldi r24,lo8(10)
+ 399 00bc 8A95      		1: dec r24
+ 400 00be 01F4      		brne 1b
+ 401 00c0 00C0      		rjmp .
+ 402               	.LBE70:
+ 403               	.LBE69:
+ 405               	.Ltext21:
   61:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     sck_high;
- 404               	.LM37:
- 405 00c2 299A      		sbi 0x5,1
- 406               	.LBB70:
- 407               	.LBB71:
- 409               	.Ltext22:
- 411               	.LM38:
- 412 00c4 9AE0      		ldi r25,lo8(10)
- 413 00c6 9A95      		1: dec r25
- 414 00c8 01F4      		brne 1b
- 415 00ca 00C0      		rjmp .
- 416               	.LBE71:
- 417               	.LBE70:
- 419               	.Ltext23:
+ 407               	.LM37:
+ 408 00c2 299A      		sbi 0x5,1
+ 409               	.LBB71:
+ 410               	.LBB72:
+ 412               	.Ltext22:
+ 414               	.LM38:
+ 415 00c4 9AE0      		ldi r25,lo8(10)
+ 416 00c6 9A95      		1: dec r25
+ 417 00c8 01F4      		brne 1b
+ 418 00ca 00C0      		rjmp .
+ 419               	.LBE72:
+ 420               	.LBE71:
+ 422               	.Ltext23:
   63:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     sck_low;
- 421               	.LM39:
- 422 00cc 2998      		cbi 0x5,1
- 423 00ce 0895      		ret
- 424               	.L10:
- 425               	.LBB72:
+ 424               	.LM39:
+ 425 00cc 2998      		cbi 0x5,1
+ 426 00ce 0895      		ret
+ 427               	.L10:
+ 428               	.LBB73:
   54:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****             data_in;
- 427               	.LM40:
- 428 00d0 E4B9      		out 0x4,r30
+ 430               	.LM40:
+ 431 00d0 E4B9      		out 0x4,r30
   55:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****             data_high;
- 430               	.LM41:
- 431 00d2 289A      		sbi 0x5,0
- 432               	.L14:
+ 433               	.LM41:
+ 434 00d2 289A      		sbi 0x5,0
+ 435               	.L14:
   56:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****             while ((PINB & (1 << DATA)));   // Wait for data line low
- 434               	.LM42:
- 435 00d4 1899      		sbic 0x3,0
- 436 00d6 00C0      		rjmp .L14
- 437 00d8 00C0      		rjmp .L13
- 438               	.LBE72:
- 446               	.Lscope3:
- 448               	.global	reset
- 450               	reset:
+ 437               	.LM42:
+ 438 00d4 1899      		sbic 0x3,0
+ 439 00d6 00C0      		rjmp .L14
+ 440 00d8 00C0      		rjmp .L13
+ 441               	.LBE73:
+ 449               	.Lscope3:
+ 451               	.global	reset
+ 453               	reset:
   66:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c **** void reset() {
- 452               	.LM43:
- 453               	.LFBB4:
- 454               	/* prologue: function */
- 455               	/* frame size = 0 */
- 456               	/* stack size = 0 */
- 457               	.L__stack_usage = 0
+ 455               	.LM43:
+ 456               	.LFBB4:
+ 457               	/* prologue: function */
+ 458               	/* frame size = 0 */
+ 459               	/* stack size = 0 */
+ 460               	.L__stack_usage = 0
   67:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     data_out;
- 459               	.LM44:
- 460 00da 83E0      		ldi r24,lo8(3)
- 461 00dc 84B9      		out 0x4,r24
+ 462               	.LM44:
+ 463 00da 83E0      		ldi r24,lo8(3)
+ 464 00dc 84B9      		out 0x4,r24
   68:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     data_high;
- 463               	.LM45:
- 464 00de 289A      		sbi 0x5,0
- 465 00e0 89E0      		ldi r24,lo8(9)
- 466 00e2 90E0      		ldi r25,0
- 467               	.L22:
- 468               	.LBB73:
- 469               	.LBB74:
- 470               	.LBB75:
- 472               	.Ltext24:
- 474               	.LM46:
- 475 00e4 2AE0      		ldi r18,lo8(10)
- 476 00e6 2A95      		1: dec r18
- 477 00e8 01F4      		brne 1b
- 478 00ea 00C0      		rjmp .
- 479               	.LBE75:
- 480               	.LBE74:
- 482               	.Ltext25:
+ 466               	.LM45:
+ 467 00de 289A      		sbi 0x5,0
+ 468 00e0 89E0      		ldi r24,lo8(9)
+ 469 00e2 90E0      		ldi r25,0
+ 470               	.L22:
+ 471               	.LBB74:
+ 472               	.LBB75:
+ 473               	.LBB76:
+ 475               	.Ltext24:
+ 477               	.LM46:
+ 478 00e4 2AE0      		ldi r18,lo8(10)
+ 479 00e6 2A95      		1: dec r18
+ 480 00e8 01F4      		brne 1b
+ 481 00ea 00C0      		rjmp .
+ 482               	.LBE76:
+ 483               	.LBE75:
+ 485               	.Ltext25:
   72:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****         sck_high;
- 484               	.LM47:
- 485 00ec 299A      		sbi 0x5,1
- 486               	.LBB76:
- 487               	.LBB77:
- 489               	.Ltext26:
- 491               	.LM48:
- 492 00ee 2AE0      		ldi r18,lo8(10)
- 493 00f0 2A95      		1: dec r18
- 494 00f2 01F4      		brne 1b
- 495 00f4 00C0      		rjmp .
- 496               	.LBE77:
- 497               	.LBE76:
- 499               	.Ltext27:
+ 487               	.LM47:
+ 488 00ec 299A      		sbi 0x5,1
+ 489               	.LBB77:
+ 490               	.LBB78:
+ 492               	.Ltext26:
+ 494               	.LM48:
+ 495 00ee 2AE0      		ldi r18,lo8(10)
+ 496 00f0 2A95      		1: dec r18
+ 497 00f2 01F4      		brne 1b
+ 498 00f4 00C0      		rjmp .
+ 499               	.LBE78:
+ 500               	.LBE77:
+ 502               	.Ltext27:
   74:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****         sck_low;
- 501               	.LM49:
- 502 00f6 2998      		cbi 0x5,1
- 503 00f8 0197      		sbiw r24,1
+ 504               	.LM49:
+ 505 00f6 2998      		cbi 0x5,1
+ 506 00f8 0197      		sbiw r24,1
   70:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     for (int i = 0; i < 9; i++) {
- 505               	.LM50:
- 506 00fa 0097      		sbiw r24,0
- 507 00fc 01F4      		brne .L22
- 508               	.LBE73:
+ 508               	.LM50:
+ 509 00fa 0097      		sbiw r24,0
+ 510 00fc 01F4      		brne .L22
+ 511               	.LBE74:
   76:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     initialize_transmisson();
- 510               	.LM51:
- 511 00fe 0C94 0000 		jmp initialize_transmisson
- 513               	.Lscope4:
- 514               	.global	__floatunsisf
- 515               	.global	__mulsf3
- 516               	.global	__subsf3
- 520               	.global	calculateMeasuredData
- 522               	calculateMeasuredData:
+ 513               	.LM51:
+ 514 00fe 0C94 0000 		jmp initialize_transmisson
+ 516               	.Lscope4:
+ 517               	.global	__floatunsisf
+ 518               	.global	__mulsf3
+ 519               	.global	__subsf3
+ 523               	.global	calculateMeasuredData
+ 525               	calculateMeasuredData:
  100:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c **** float calculateMeasuredData(uint16_t measuredData, uint8_t value) {
- 524               	.LM52:
- 525               	.LFBB5:
- 526 0102 8F92      		push r8
- 527 0104 9F92      		push r9
- 528 0106 AF92      		push r10
- 529 0108 BF92      		push r11
- 530 010a CF92      		push r12
- 531 010c DF92      		push r13
- 532 010e EF92      		push r14
- 533 0110 FF92      		push r15
- 534               	/* prologue: function */
- 535               	/* frame size = 0 */
- 536               	/* stack size = 8 */
- 537               	.L__stack_usage = 8
+ 527               	.LM52:
+ 528               	.LFBB5:
+ 529 0102 8F92      		push r8
+ 530 0104 9F92      		push r9
+ 531 0106 AF92      		push r10
+ 532 0108 BF92      		push r11
+ 533 010a CF92      		push r12
+ 534 010c DF92      		push r13
+ 535 010e EF92      		push r14
+ 536 0110 FF92      		push r15
+ 537               	/* prologue: function */
+ 538               	/* frame size = 0 */
+ 539               	/* stack size = 8 */
+ 540               	.L__stack_usage = 8
  103:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     switch (value) {
- 539               	.LM53:
- 540 0112 6330      		cpi r22,lo8(3)
- 541 0114 01F0      		breq .L25
- 542 0116 6530      		cpi r22,lo8(5)
- 543 0118 01F4      		brne .L28
- 544               	.LBB80:
- 545               	.LBB81:
+ 542               	.LM53:
+ 543 0112 6330      		cpi r22,lo8(3)
+ 544 0114 01F0      		breq .L25
+ 545 0116 6530      		cpi r22,lo8(5)
+ 546 0118 01F4      		brne .L28
+ 547               	.LBB81:
+ 548               	.LBB82:
  105:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****             humiLin = measuredData * 0.0405 - 2.8 * pow(10, -6) * pow(measuredData, 2) - 4;
- 547               	.LM54:
- 548 011a BC01      		movw r22,r24
- 549 011c 80E0      		ldi r24,0
- 550 011e 90E0      		ldi r25,0
- 551 0120 0E94 0000 		call __floatunsisf
- 552 0124 6B01      		movw r12,r22
- 553 0126 7C01      		movw r14,r24
- 554 0128 24E5      		ldi r18,lo8(84)
- 555 012a 33EE      		ldi r19,lo8(-29)
- 556 012c 45E2      		ldi r20,lo8(37)
- 557 012e 5DE3      		ldi r21,lo8(61)
- 558 0130 0E94 0000 		call __mulsf3
- 559 0134 4B01      		movw r8,r22
- 560 0136 5C01      		movw r10,r24
- 561 0138 A701      		movw r20,r14
- 562 013a 9601      		movw r18,r12
- 563 013c C701      		movw r24,r14
- 564 013e B601      		movw r22,r12
- 565 0140 0E94 0000 		call __mulsf3
- 566 0144 22EA      		ldi r18,lo8(-94)
- 567 0146 37EE      		ldi r19,lo8(-25)
- 568 0148 4BE3      		ldi r20,lo8(59)
- 569 014a 56E3      		ldi r21,lo8(54)
- 570 014c 0E94 0000 		call __mulsf3
- 571 0150 9B01      		movw r18,r22
- 572 0152 AC01      		movw r20,r24
- 573 0154 C501      		movw r24,r10
- 574 0156 B401      		movw r22,r8
- 575 0158 0E94 0000 		call __subsf3
- 576 015c 20E0      		ldi r18,0
- 577 015e 30E0      		ldi r19,0
- 578 0160 40E8      		ldi r20,lo8(-128)
- 579 0162 50E4      		ldi r21,lo8(64)
- 580 0164 00C0      		rjmp .L29
- 581               	.L25:
- 582               	.LBE81:
- 583               	.LBE80:
+ 550               	.LM54:
+ 551 011a BC01      		movw r22,r24
+ 552 011c 80E0      		ldi r24,0
+ 553 011e 90E0      		ldi r25,0
+ 554 0120 0E94 0000 		call __floatunsisf
+ 555 0124 6B01      		movw r12,r22
+ 556 0126 7C01      		movw r14,r24
+ 557 0128 24E5      		ldi r18,lo8(84)
+ 558 012a 33EE      		ldi r19,lo8(-29)
+ 559 012c 45E2      		ldi r20,lo8(37)
+ 560 012e 5DE3      		ldi r21,lo8(61)
+ 561 0130 0E94 0000 		call __mulsf3
+ 562 0134 4B01      		movw r8,r22
+ 563 0136 5C01      		movw r10,r24
+ 564 0138 A701      		movw r20,r14
+ 565 013a 9601      		movw r18,r12
+ 566 013c C701      		movw r24,r14
+ 567 013e B601      		movw r22,r12
+ 568 0140 0E94 0000 		call __mulsf3
+ 569 0144 22EA      		ldi r18,lo8(-94)
+ 570 0146 37EE      		ldi r19,lo8(-25)
+ 571 0148 4BE3      		ldi r20,lo8(59)
+ 572 014a 56E3      		ldi r21,lo8(54)
+ 573 014c 0E94 0000 		call __mulsf3
+ 574 0150 9B01      		movw r18,r22
+ 575 0152 AC01      		movw r20,r24
+ 576 0154 C501      		movw r24,r10
+ 577 0156 B401      		movw r22,r8
+ 578 0158 0E94 0000 		call __subsf3
+ 579 015c 20E0      		ldi r18,0
+ 580 015e 30E0      		ldi r19,0
+ 581 0160 40E8      		ldi r20,lo8(-128)
+ 582 0162 50E4      		ldi r21,lo8(64)
+ 583 0164 00C0      		rjmp .L29
+ 584               	.L25:
+ 585               	.LBE82:
+ 586               	.LBE81:
  109:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****             tempLin = -40.00 + 0.01 * measuredData;
- 585               	.LM55:
- 586 0166 BC01      		movw r22,r24
- 587 0168 80E0      		ldi r24,0
- 588 016a 90E0      		ldi r25,0
- 589 016c 0E94 0000 		call __floatunsisf
- 590 0170 2AE0      		ldi r18,lo8(10)
- 591 0172 37ED      		ldi r19,lo8(-41)
- 592 0174 43E2      		ldi r20,lo8(35)
- 593 0176 5CE3      		ldi r21,lo8(60)
- 594 0178 0E94 0000 		call __mulsf3
- 595 017c 20E0      		ldi r18,0
- 596 017e 30E0      		ldi r19,0
- 597 0180 40E2      		ldi r20,lo8(32)
- 598 0182 52E4      		ldi r21,lo8(66)
- 599               	.L29:
- 600 0184 0E94 0000 		call __subsf3
+ 588               	.LM55:
+ 589 0166 BC01      		movw r22,r24
+ 590 0168 80E0      		ldi r24,0
+ 591 016a 90E0      		ldi r25,0
+ 592 016c 0E94 0000 		call __floatunsisf
+ 593 0170 2AE0      		ldi r18,lo8(10)
+ 594 0172 37ED      		ldi r19,lo8(-41)
+ 595 0174 43E2      		ldi r20,lo8(35)
+ 596 0176 5CE3      		ldi r21,lo8(60)
+ 597 0178 0E94 0000 		call __mulsf3
+ 598 017c 20E0      		ldi r18,0
+ 599 017e 30E0      		ldi r19,0
+ 600 0180 40E2      		ldi r20,lo8(32)
+ 601 0182 52E4      		ldi r21,lo8(66)
+ 602               	.L29:
+ 603 0184 0E94 0000 		call __subsf3
  110:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****             return tempLin;
- 602               	.LM56:
- 603 0188 00C0      		rjmp .L24
- 604               	.L28:
+ 605               	.LM56:
+ 606 0188 00C0      		rjmp .L24
+ 607               	.L28:
  114:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     return 1;
- 606               	.LM57:
- 607 018a 60E0      		ldi r22,0
- 608 018c 70E0      		ldi r23,0
- 609 018e 80E8      		ldi r24,lo8(-128)
- 610 0190 9FE3      		ldi r25,lo8(63)
- 611               	.L24:
- 612               	/* epilogue start */
+ 609               	.LM57:
+ 610 018a 60E0      		ldi r22,0
+ 611 018c 70E0      		ldi r23,0
+ 612 018e 80E8      		ldi r24,lo8(-128)
+ 613 0190 9FE3      		ldi r25,lo8(63)
+ 614               	.L24:
+ 615               	/* epilogue start */
  115:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c **** }
- 614               	.LM58:
- 615 0192 FF90      		pop r15
- 616 0194 EF90      		pop r14
- 617 0196 DF90      		pop r13
- 618 0198 CF90      		pop r12
- 619 019a BF90      		pop r11
- 620 019c AF90      		pop r10
- 621 019e 9F90      		pop r9
- 622 01a0 8F90      		pop r8
- 623 01a2 0895      		ret
- 625               	.Lscope5:
- 627               	.global	serial_init
- 629               	serial_init:
- 118:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c **** void serial_init() {
- 631               	.LM59:
- 632               	.LFBB6:
- 633               	/* prologue: function */
- 634               	/* frame size = 0 */
- 635               	/* stack size = 0 */
- 636               	.L__stack_usage = 0
- 126:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     UCSR0B = (1 << TXEN0);
- 638               	.LM60:
- 639 01a4 88E0      		ldi r24,lo8(8)
- 640 01a6 8093 C100 		sts 193,r24
- 127:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     UBRR0L = 51;
- 642               	.LM61:
- 643 01aa 83E3      		ldi r24,lo8(51)
- 644 01ac 8093 C400 		sts 196,r24
- 128:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     UCSR0C = (1 << UCSZ01) | (1 << UCSZ00);
- 646               	.LM62:
- 647 01b0 86E0      		ldi r24,lo8(6)
- 648 01b2 8093 C200 		sts 194,r24
- 649 01b6 0895      		ret
- 651               	.Lscope6:
- 654               	.global	receiveBytes
- 656               	receiveBytes:
- 139:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c **** 
- 140:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c **** void receiveBytes(uint8_t *target) {
- 658               	.LM63:
- 659               	.LFBB7:
- 660               	/* prologue: function */
- 661               	/* frame size = 0 */
- 662               	/* stack size = 0 */
- 663               	.L__stack_usage = 0
- 664 01b8 FC01      		movw r30,r24
- 666               	.LM64:
- 667 01ba 27E0      		ldi r18,lo8(7)
- 668 01bc 30E0      		ldi r19,0
- 669               	.LBB82:
- 141:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     for (int i = 0; i < 8; i++) {
- 142:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****         sck_high;
- 143:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****         _delay_us(4);
- 144:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****         if ((PINB & (1 << PINB0))) {
- 145:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****             *target |= (1 << (7 - i));
- 146:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****         } else {
- 147:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****             *target &= ~(1 << (7 - i));
- 671               	.LM65:
- 672 01be 81E0      		ldi r24,lo8(1)
- 673 01c0 90E0      		ldi r25,0
- 674               	.L35:
- 142:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****         sck_high;
- 676               	.LM66:
- 677 01c2 299A      		sbi 0x5,1
- 678               	.LBB83:
- 679               	.LBB84:
- 681               	.Ltext28:
- 683               	.LM67:
- 684 01c4 4AE0      		ldi r20,lo8(10)
- 685 01c6 4A95      		1: dec r20
- 686 01c8 01F4      		brne 1b
- 687 01ca 00C0      		rjmp .
- 688 01cc 6081      		ld r22,Z
- 689               	.LBE84:
- 690               	.LBE83:
- 692               	.Ltext29:
- 145:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****             *target |= (1 << (7 - i));
- 694               	.LM68:
- 695 01ce AC01      		movw r20,r24
- 696 01d0 022E      		mov r0,r18
- 697 01d2 00C0      		rjmp 2f
- 698               		1:
- 699 01d4 440F      		lsl r20
- 700               		2:
- 701 01d6 0A94      		dec r0
- 702 01d8 02F4      		brpl 1b
- 144:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****         if ((PINB & (1 << PINB0))) {
- 704               	.LM69:
- 705 01da 189B      		sbis 0x3,0
- 706 01dc 00C0      		rjmp .L32
- 145:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****             *target |= (1 << (7 - i));
- 708               	.LM70:
- 709 01de 462B      		or r20,r22
- 710 01e0 00C0      		rjmp .L36
- 711               	.L32:
- 713               	.LM71:
- 714 01e2 4095      		com r20
- 715 01e4 4623      		and r20,r22
- 716               	.L36:
- 717 01e6 4083      		st Z,r20
- 148:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****         }
- 149:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****         sck_low;
- 719               	.LM72:
- 720 01e8 2998      		cbi 0x5,1
- 721               	.LBB85:
- 722               	.LBB86:
- 724               	.Ltext30:
- 726               	.LM73:
- 727 01ea 4AE0      		ldi r20,lo8(10)
- 728 01ec 4A95      		1: dec r20
- 729 01ee 01F4      		brne 1b
- 730 01f0 00C0      		rjmp .
- 731               	.LBE86:
- 732               	.LBE85:
- 733 01f2 2150      		subi r18,1
- 734 01f4 3109      		sbc r19,__zero_reg__
- 735 01f6 00F4      		brcc .L35
- 736               	/* epilogue start */
- 737               	.LBE82:
- 739               	.Ltext31:
- 150:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****         _delay_us(4);
- 151:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     }
- 152:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c **** }
- 741               	.LM74:
- 742 01f8 0895      		ret
- 744               	.Lscope7:
- 746               	.global	ack
- 748               	ack:
- 153:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c **** 
- 154:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c **** void ack(void) {
- 750               	.LM75:
- 751               	.LFBB8:
- 752               	/* prologue: function */
- 753               	/* frame size = 0 */
- 754               	/* stack size = 0 */
- 755               	.L__stack_usage = 0
- 155:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     data_out;
- 757               	.LM76:
- 758 01fa 83E0      		ldi r24,lo8(3)
- 759 01fc 84B9      		out 0x4,r24
- 156:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     data_low;
- 761               	.LM77:
- 762 01fe 2898      		cbi 0x5,0
- 763               	.LBB87:
- 764               	.LBB88:
- 766               	.Ltext32:
- 768               	.LM78:
- 769 0200 8AE0      		ldi r24,lo8(10)
- 770 0202 8A95      		1: dec r24
- 771 0204 01F4      		brne 1b
- 772 0206 00C0      		rjmp .
- 773               	.LBE88:
- 774               	.LBE87:
- 776               	.Ltext33:
- 157:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     _delay_us(4);
- 158:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     sck_high;
- 778               	.LM79:
- 779 0208 299A      		sbi 0x5,1
- 780               	.LBB89:
- 781               	.LBB90:
- 783               	.Ltext34:
- 785               	.LM80:
- 786 020a 8AE0      		ldi r24,lo8(10)
- 787 020c 8A95      		1: dec r24
- 788 020e 01F4      		brne 1b
- 789 0210 00C0      		rjmp .
- 790               	.LBE90:
- 791               	.LBE89:
- 793               	.Ltext35:
- 159:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     _delay_us(4);
- 160:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     sck_low;
- 795               	.LM81:
- 796 0212 2998      		cbi 0x5,1
- 797               	.LBB91:
- 798               	.LBB92:
- 800               	.Ltext36:
- 802               	.LM82:
- 803 0214 8AE0      		ldi r24,lo8(10)
- 804 0216 8A95      		1: dec r24
- 805 0218 01F4      		brne 1b
- 806 021a 00C0      		rjmp .
- 807               	.LBE92:
- 808               	.LBE91:
- 810               	.Ltext37:
- 161:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     _delay_us(4);
- 162:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     data_in;
- 812               	.LM83:
- 813 021c 8EEF      		ldi r24,lo8(-2)
- 814 021e 84B9      		out 0x4,r24
- 163:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     data_high;
- 816               	.LM84:
- 817 0220 289A      		sbi 0x5,0
- 818 0222 0895      		ret
- 820               	.Lscope8:
- 822               	.global	read_data
- 824               	read_data:
+ 617               	.LM58:
+ 618 0192 FF90      		pop r15
+ 619 0194 EF90      		pop r14
+ 620 0196 DF90      		pop r13
+ 621 0198 CF90      		pop r12
+ 622 019a BF90      		pop r11
+ 623 019c AF90      		pop r10
+ 624 019e 9F90      		pop r9
+ 625 01a0 8F90      		pop r8
+ 626 01a2 0895      		ret
+ 628               	.Lscope5:
+ 630               	.global	serial_init
+ 632               	serial_init:
+ 139:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c **** void serial_init() {
+ 634               	.LM59:
+ 635               	.LFBB6:
+ 636               	/* prologue: function */
+ 637               	/* frame size = 0 */
+ 638               	/* stack size = 0 */
+ 639               	.L__stack_usage = 0
+ 147:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     UCSR0B = (1 << TXEN0);
+ 641               	.LM60:
+ 642 01a4 88E0      		ldi r24,lo8(8)
+ 643 01a6 8093 C100 		sts 193,r24
+ 148:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     UBRR0L = 51;
+ 645               	.LM61:
+ 646 01aa 83E3      		ldi r24,lo8(51)
+ 647 01ac 8093 C400 		sts 196,r24
+ 149:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     UCSR0C = (1 << UCSZ01) | (1 << UCSZ00);
+ 649               	.LM62:
+ 650 01b0 86E0      		ldi r24,lo8(6)
+ 651 01b2 8093 C200 		sts 194,r24
+ 652 01b6 0895      		ret
+ 654               	.Lscope6:
+ 657               	.global	receiveBytes
+ 659               	receiveBytes:
+ 160:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c **** 
+ 161:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c **** void receiveBytes(uint8_t *target) {
+ 661               	.LM63:
+ 662               	.LFBB7:
+ 663               	/* prologue: function */
+ 664               	/* frame size = 0 */
+ 665               	/* stack size = 0 */
+ 666               	.L__stack_usage = 0
+ 667 01b8 FC01      		movw r30,r24
+ 669               	.LM64:
+ 670 01ba 27E0      		ldi r18,lo8(7)
+ 671 01bc 30E0      		ldi r19,0
+ 672               	.LBB83:
+ 162:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     for (int i = 0; i < 8; i++) {
+ 163:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****         sck_high;
+ 164:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****         _delay_us(4);
+ 165:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****         if ((PINB & (1 << PINB0))) {
+ 166:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****             *target |= (1 << (7 - i));
+ 167:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****         } else {
+ 168:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****             *target &= ~(1 << (7 - i));
+ 674               	.LM65:
+ 675 01be 81E0      		ldi r24,lo8(1)
+ 676 01c0 90E0      		ldi r25,0
+ 677               	.L35:
+ 163:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****         sck_high;
+ 679               	.LM66:
+ 680 01c2 299A      		sbi 0x5,1
+ 681               	.LBB84:
+ 682               	.LBB85:
+ 684               	.Ltext28:
+ 686               	.LM67:
+ 687 01c4 4AE0      		ldi r20,lo8(10)
+ 688 01c6 4A95      		1: dec r20
+ 689 01c8 01F4      		brne 1b
+ 690 01ca 00C0      		rjmp .
+ 691 01cc 6081      		ld r22,Z
+ 692               	.LBE85:
+ 693               	.LBE84:
+ 695               	.Ltext29:
+ 166:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****             *target |= (1 << (7 - i));
+ 697               	.LM68:
+ 698 01ce AC01      		movw r20,r24
+ 699 01d0 022E      		mov r0,r18
+ 700 01d2 00C0      		rjmp 2f
+ 701               		1:
+ 702 01d4 440F      		lsl r20
+ 703               		2:
+ 704 01d6 0A94      		dec r0
+ 705 01d8 02F4      		brpl 1b
+ 165:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****         if ((PINB & (1 << PINB0))) {
+ 707               	.LM69:
+ 708 01da 189B      		sbis 0x3,0
+ 709 01dc 00C0      		rjmp .L32
+ 166:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****             *target |= (1 << (7 - i));
+ 711               	.LM70:
+ 712 01de 462B      		or r20,r22
+ 713 01e0 00C0      		rjmp .L36
+ 714               	.L32:
+ 716               	.LM71:
+ 717 01e2 4095      		com r20
+ 718 01e4 4623      		and r20,r22
+ 719               	.L36:
+ 720 01e6 4083      		st Z,r20
+ 169:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****         }
+ 170:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****         sck_low;
+ 722               	.LM72:
+ 723 01e8 2998      		cbi 0x5,1
+ 724               	.LBB86:
+ 725               	.LBB87:
+ 727               	.Ltext30:
+ 729               	.LM73:
+ 730 01ea 4AE0      		ldi r20,lo8(10)
+ 731 01ec 4A95      		1: dec r20
+ 732 01ee 01F4      		brne 1b
+ 733 01f0 00C0      		rjmp .
+ 734               	.LBE87:
+ 735               	.LBE86:
+ 736 01f2 2150      		subi r18,1
+ 737 01f4 3109      		sbc r19,__zero_reg__
+ 738 01f6 00F4      		brcc .L35
+ 739               	/* epilogue start */
+ 740               	.LBE83:
+ 742               	.Ltext31:
+ 171:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****         _delay_us(4);
+ 172:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     }
+ 173:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c **** }
+ 744               	.LM74:
+ 745 01f8 0895      		ret
+ 747               	.Lscope7:
+ 749               	.global	ack
+ 751               	ack:
+ 174:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c **** 
+ 175:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c **** void ack(void) {
+ 753               	.LM75:
+ 754               	.LFBB8:
+ 755               	/* prologue: function */
+ 756               	/* frame size = 0 */
+ 757               	/* stack size = 0 */
+ 758               	.L__stack_usage = 0
+ 176:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     data_out;
+ 760               	.LM76:
+ 761 01fa 83E0      		ldi r24,lo8(3)
+ 762 01fc 84B9      		out 0x4,r24
+ 177:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     data_low;
+ 764               	.LM77:
+ 765 01fe 2898      		cbi 0x5,0
+ 766               	.LBB88:
+ 767               	.LBB89:
+ 769               	.Ltext32:
+ 771               	.LM78:
+ 772 0200 8AE0      		ldi r24,lo8(10)
+ 773 0202 8A95      		1: dec r24
+ 774 0204 01F4      		brne 1b
+ 775 0206 00C0      		rjmp .
+ 776               	.LBE89:
+ 777               	.LBE88:
+ 779               	.Ltext33:
+ 178:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     _delay_us(4);
+ 179:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     sck_high;
+ 781               	.LM79:
+ 782 0208 299A      		sbi 0x5,1
+ 783               	.LBB90:
+ 784               	.LBB91:
+ 786               	.Ltext34:
+ 788               	.LM80:
+ 789 020a 8AE0      		ldi r24,lo8(10)
+ 790 020c 8A95      		1: dec r24
+ 791 020e 01F4      		brne 1b
+ 792 0210 00C0      		rjmp .
+ 793               	.LBE91:
+ 794               	.LBE90:
+ 796               	.Ltext35:
+ 180:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     _delay_us(4);
+ 181:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     sck_low;
+ 798               	.LM81:
+ 799 0212 2998      		cbi 0x5,1
+ 800               	.LBB92:
+ 801               	.LBB93:
+ 803               	.Ltext36:
+ 805               	.LM82:
+ 806 0214 8AE0      		ldi r24,lo8(10)
+ 807 0216 8A95      		1: dec r24
+ 808 0218 01F4      		brne 1b
+ 809 021a 00C0      		rjmp .
+ 810               	.LBE93:
+ 811               	.LBE92:
+ 813               	.Ltext37:
+ 182:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     _delay_us(4);
+ 183:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     data_in;
+ 815               	.LM83:
+ 816 021c 8EEF      		ldi r24,lo8(-2)
+ 817 021e 84B9      		out 0x4,r24
+ 184:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     data_high;
+ 819               	.LM84:
+ 820 0220 289A      		sbi 0x5,0
+ 821 0222 0895      		ret
+ 823               	.Lscope8:
+ 825               	.global	read_data
+ 827               	read_data:
   81:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c **** uint16_t read_data() {
- 826               	.LM85:
- 827               	.LFBB9:
- 828 0224 CF93      		push r28
- 829 0226 DF93      		push r29
- 830 0228 00D0      		rcall .
- 831 022a CDB7      		in r28,__SP_L__
- 832 022c DEB7      		in r29,__SP_H__
- 833               	/* prologue: function */
- 834               	/* frame size = 2 */
- 835               	/* stack size = 4 */
- 836               	.L__stack_usage = 4
+ 829               	.LM85:
+ 830               	.LFBB9:
+ 831 0224 CF93      		push r28
+ 832 0226 DF93      		push r29
+ 833 0228 00D0      		rcall .
+ 834 022a CDB7      		in r28,__SP_L__
+ 835 022c DEB7      		in r29,__SP_H__
+ 836               	/* prologue: function */
+ 837               	/* frame size = 2 */
+ 838               	/* stack size = 4 */
+ 839               	.L__stack_usage = 4
   84:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     dataL = 0x00;
- 838               	.LM86:
- 839 022e 1A82      		std Y+2,__zero_reg__
+ 841               	.LM86:
+ 842 022e 1A82      		std Y+2,__zero_reg__
   85:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     dataH = 0x00;
- 841               	.LM87:
- 842 0230 1982      		std Y+1,__zero_reg__
+ 844               	.LM87:
+ 845 0230 1982      		std Y+1,__zero_reg__
   86:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     data_in;
- 844               	.LM88:
- 845 0232 8EEF      		ldi r24,lo8(-2)
- 846 0234 84B9      		out 0x4,r24
+ 847               	.LM88:
+ 848 0232 8EEF      		ldi r24,lo8(-2)
+ 849 0234 84B9      		out 0x4,r24
   87:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     data_high;
- 848               	.LM89:
- 849 0236 289A      		sbi 0x5,0
- 850               	.L40:
+ 851               	.LM89:
+ 852 0236 289A      		sbi 0x5,0
+ 853               	.L40:
   89:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     while (PINB & (1<<DATA));
- 852               	.LM90:
- 853 0238 1899      		sbic 0x3,0
- 854 023a 00C0      		rjmp .L40
+ 855               	.LM90:
+ 856 0238 1899      		sbic 0x3,0
+ 857 023a 00C0      		rjmp .L40
   91:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     receiveBytes(&dataH);
- 856               	.LM91:
- 857 023c CE01      		movw r24,r28
- 858 023e 0196      		adiw r24,1
- 859 0240 0E94 0000 		call receiveBytes
+ 859               	.LM91:
+ 860 023c CE01      		movw r24,r28
+ 861 023e 0196      		adiw r24,1
+ 862 0240 0E94 0000 		call receiveBytes
   92:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     ack(); // ack() to start getting LSB
- 861               	.LM92:
- 862 0244 0E94 0000 		call ack
+ 864               	.LM92:
+ 865 0244 0E94 0000 		call ack
   94:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     receiveBytes(&dataL);
- 864               	.LM93:
- 865 0248 CE01      		movw r24,r28
- 866 024a 0296      		adiw r24,2
- 867 024c 0E94 0000 		call receiveBytes
+ 867               	.LM93:
+ 868 0248 CE01      		movw r24,r28
+ 869 024a 0296      		adiw r24,2
+ 870 024c 0E94 0000 		call receiveBytes
   96:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     measured = (dataH << 8) | dataL;
- 869               	.LM94:
- 870 0250 8981      		ldd r24,Y+1
- 871 0252 90E0      		ldi r25,0
- 872 0254 982F      		mov r25,r24
- 873 0256 8827      		clr r24
- 874 0258 2A81      		ldd r18,Y+2
+ 872               	.LM94:
+ 873 0250 8981      		ldd r24,Y+1
+ 874 0252 90E0      		ldi r25,0
+ 875 0254 982F      		mov r25,r24
+ 876 0256 8827      		clr r24
+ 877 0258 2A81      		ldd r18,Y+2
   98:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c **** }
- 876               	.LM95:
- 877 025a 822B      		or r24,r18
- 878               	/* epilogue start */
- 879 025c 0F90      		pop __tmp_reg__
- 880 025e 0F90      		pop __tmp_reg__
- 881 0260 DF91      		pop r29
- 882 0262 CF91      		pop r28
- 883 0264 0895      		ret
- 889               	.Lscope9:
- 890               	.global	__addsf3
- 891               		.section	.rodata.str1.1,"aMS",@progbits,1
- 892               	.LC0:
- 893 0000 4875 6D69 		.string	"Humidity: %.2f (Compansated: %.2f) Temp: %.2f \n"
- 893      6469 7479 
- 893      3A20 252E 
- 893      3266 2028 
- 893      436F 6D70 
- 894               		.section	.text.startup,"ax",@progbits
- 896               	.global	main
- 898               	main:
- 900               	.Ltext38:
+ 879               	.LM95:
+ 880 025a 822B      		or r24,r18
+ 881               	/* epilogue start */
+ 882 025c 0F90      		pop __tmp_reg__
+ 883 025e 0F90      		pop __tmp_reg__
+ 884 0260 DF91      		pop r29
+ 885 0262 CF91      		pop r28
+ 886 0264 0895      		ret
+ 892               	.Lscope9:
+ 893               	.global	__fixunssfsi
+ 894               	.global	__floatsisf
+ 895               	.global	__addsf3
+ 897               	.global	shtSense
+ 899               	shtSense:
+ 117:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c **** SHTData shtSense() {
+ 901               	.LM96:
+ 902               	.LFBB10:
+ 903 0266 4F92      		push r4
+ 904 0268 5F92      		push r5
+ 905 026a 6F92      		push r6
+ 906 026c 7F92      		push r7
+ 907 026e 8F92      		push r8
+ 908 0270 9F92      		push r9
+ 909 0272 AF92      		push r10
+ 910 0274 BF92      		push r11
+ 911 0276 CF92      		push r12
+ 912 0278 DF92      		push r13
+ 913 027a EF92      		push r14
+ 914 027c FF92      		push r15
+ 915 027e 1F93      		push r17
+ 916 0280 CF93      		push r28
+ 917 0282 DF93      		push r29
+ 918 0284 00D0      		rcall .
+ 919 0286 00D0      		rcall .
+ 920 0288 CDB7      		in r28,__SP_L__
+ 921 028a DEB7      		in r29,__SP_H__
+ 922               	/* prologue: function */
+ 923               	/* frame size = 4 */
+ 924               	/* stack size = 19 */
+ 925               	.L__stack_usage = 19
+ 121:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     initialize_transmisson();   // Initilize the sensor to send command
+ 927               	.LM97:
+ 928 028c 0E94 0000 		call initialize_transmisson
+ 122:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     send_command(temperature);
+ 930               	.LM98:
+ 931 0290 83E0      		ldi r24,lo8(3)
+ 932 0292 0E94 0000 		call send_command
+ 933               	.LBB108:
+ 934               	.LBB109:
+ 936               	.Ltext38:
+ 938               	.LM99:
+ 939 0296 25ED      		ldi r18,lo8(-43)
+ 940 0298 2A95      		1: dec r18
+ 941 029a 01F4      		brne 1b
+ 942 029c 0000      		nop
+ 943               	.LBE109:
+ 944               	.LBE108:
+ 946               	.Ltext39:
+ 124:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     _temperature = calculateMeasuredData(read_data(), temperature);
+ 948               	.LM100:
+ 949 029e 0E94 0000 		call read_data
+ 950               	.LBB110:
+ 951               	.LBB111:
+ 109:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****             tempLin = -40.00 + 0.01 * measuredData;
+ 953               	.LM101:
+ 954 02a2 BC01      		movw r22,r24
+ 955 02a4 80E0      		ldi r24,0
+ 956 02a6 90E0      		ldi r25,0
+ 957 02a8 0E94 0000 		call __floatunsisf
+ 958 02ac 2AE0      		ldi r18,lo8(10)
+ 959 02ae 37ED      		ldi r19,lo8(-41)
+ 960 02b0 43E2      		ldi r20,lo8(35)
+ 961 02b2 5CE3      		ldi r21,lo8(60)
+ 962 02b4 0E94 0000 		call __mulsf3
+ 963 02b8 20E0      		ldi r18,0
+ 964 02ba 30E0      		ldi r19,0
+ 965 02bc 40E2      		ldi r20,lo8(32)
+ 966 02be 52E4      		ldi r21,lo8(66)
+ 967 02c0 0E94 0000 		call __subsf3
+ 968               	.LBE111:
+ 969               	.LBE110:
+ 124:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     _temperature = calculateMeasuredData(read_data(), temperature);
+ 971               	.LM102:
+ 972 02c4 0E94 0000 		call __fixunssfsi
+ 973 02c8 162F      		mov r17,r22
+ 125:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     reset();
+ 975               	.LM103:
+ 976 02ca 0E94 0000 		call reset
+ 126:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     send_command(humidity);
+ 978               	.LM104:
+ 979 02ce 85E0      		ldi r24,lo8(5)
+ 980 02d0 0E94 0000 		call send_command
+ 981               	.LBB112:
+ 982               	.LBB113:
+ 984               	.Ltext40:
+ 986               	.LM105:
+ 987 02d4 35ED      		ldi r19,lo8(-43)
+ 988 02d6 3A95      		1: dec r19
+ 989 02d8 01F4      		brne 1b
+ 990 02da 0000      		nop
+ 991               	.LBE113:
+ 992               	.LBE112:
+ 994               	.Ltext41:
+ 128:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     __humidity = read_data();
+ 996               	.LM106:
+ 997 02dc 0E94 0000 		call read_data
+ 998               	.LBB114:
+ 999               	.LBB115:
+ 1000               	.LBB116:
+ 1001               	.LBB117:
+ 105:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****             humiLin = measuredData * 0.0405 - 2.8 * pow(10, -6) * pow(measuredData, 2) - 4;
+ 1003               	.LM107:
+ 1004 02e0 BC01      		movw r22,r24
+ 1005 02e2 80E0      		ldi r24,0
+ 1006 02e4 90E0      		ldi r25,0
+ 1007 02e6 0E94 0000 		call __floatunsisf
+ 1008 02ea 6B01      		movw r12,r22
+ 1009 02ec 7C01      		movw r14,r24
+ 1010               	.LBE117:
+ 1011               	.LBE116:
+ 1012               	.LBE115:
+ 1013               	.LBE114:
+ 130:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     _humidity = (_temperature - 25) * (0.01 + 0.00008 * __humidity) + _humidity;
+ 1015               	.LM108:
+ 1016 02ee 612F      		mov r22,r17
+ 1017 02f0 70E0      		ldi r23,0
+ 1018 02f2 6951      		subi r22,25
+ 1019 02f4 7109      		sbc r23,__zero_reg__
+ 1020 02f6 8827      		clr r24
+ 1021 02f8 77FD      		sbrc r23,7
+ 1022 02fa 8095      		com r24
+ 1023 02fc 982F      		mov r25,r24
+ 1024 02fe 0E94 0000 		call __floatsisf
+ 1025 0302 4B01      		movw r8,r22
+ 1026 0304 5C01      		movw r10,r24
+ 1027 0306 2CEA      		ldi r18,lo8(-84)
+ 1028 0308 35EC      		ldi r19,lo8(-59)
+ 1029 030a 47EA      		ldi r20,lo8(-89)
+ 1030 030c 58E3      		ldi r21,lo8(56)
+ 1031 030e C701      		movw r24,r14
+ 1032 0310 B601      		movw r22,r12
+ 1033 0312 0E94 0000 		call __mulsf3
+ 1034 0316 2AE0      		ldi r18,lo8(10)
+ 1035 0318 37ED      		ldi r19,lo8(-41)
+ 1036 031a 43E2      		ldi r20,lo8(35)
+ 1037 031c 5CE3      		ldi r21,lo8(60)
+ 1038 031e 0E94 0000 		call __addsf3
+ 1039 0322 9B01      		movw r18,r22
+ 1040 0324 AC01      		movw r20,r24
+ 1041 0326 C501      		movw r24,r10
+ 1042 0328 B401      		movw r22,r8
+ 1043 032a 0E94 0000 		call __mulsf3
+ 1044 032e 4B01      		movw r8,r22
+ 1045 0330 5C01      		movw r10,r24
+ 1046               	.LBB121:
+ 1047               	.LBB120:
+ 1048               	.LBB119:
+ 1049               	.LBB118:
+ 105:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****             humiLin = measuredData * 0.0405 - 2.8 * pow(10, -6) * pow(measuredData, 2) - 4;
+ 1051               	.LM109:
+ 1052 0332 24E5      		ldi r18,lo8(84)
+ 1053 0334 33EE      		ldi r19,lo8(-29)
+ 1054 0336 45E2      		ldi r20,lo8(37)
+ 1055 0338 5DE3      		ldi r21,lo8(61)
+ 1056 033a C701      		movw r24,r14
+ 1057 033c B601      		movw r22,r12
+ 1058 033e 0E94 0000 		call __mulsf3
+ 1059 0342 2B01      		movw r4,r22
+ 1060 0344 3C01      		movw r6,r24
+ 1061 0346 A701      		movw r20,r14
+ 1062 0348 9601      		movw r18,r12
+ 1063 034a C701      		movw r24,r14
+ 1064 034c B601      		movw r22,r12
+ 1065 034e 0E94 0000 		call __mulsf3
+ 1066 0352 22EA      		ldi r18,lo8(-94)
+ 1067 0354 37EE      		ldi r19,lo8(-25)
+ 1068 0356 4BE3      		ldi r20,lo8(59)
+ 1069 0358 56E3      		ldi r21,lo8(54)
+ 1070 035a 0E94 0000 		call __mulsf3
+ 1071 035e 9B01      		movw r18,r22
+ 1072 0360 AC01      		movw r20,r24
+ 1073 0362 C301      		movw r24,r6
+ 1074 0364 B201      		movw r22,r4
+ 1075 0366 0E94 0000 		call __subsf3
+ 1076 036a 20E0      		ldi r18,0
+ 1077 036c 30E0      		ldi r19,0
+ 1078 036e 40E8      		ldi r20,lo8(-128)
+ 1079 0370 50E4      		ldi r21,lo8(64)
+ 1080 0372 0E94 0000 		call __subsf3
+ 1081               	.LBE118:
+ 1082               	.LBE119:
+ 1083               	.LBE120:
+ 1084               	.LBE121:
+ 129:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     _humidity = calculateMeasuredData(__humidity, humidity);
+ 1086               	.LM110:
+ 1087 0376 0E94 0000 		call __fixunssfsi
+ 130:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     _humidity = (_temperature - 25) * (0.01 + 0.00008 * __humidity) + _humidity;
+ 1089               	.LM111:
+ 1090 037a 70E0      		ldi r23,0
+ 1091 037c 80E0      		ldi r24,0
+ 1092 037e 90E0      		ldi r25,0
+ 1093 0380 0E94 0000 		call __floatsisf
+ 1094 0384 9B01      		movw r18,r22
+ 1095 0386 AC01      		movw r20,r24
+ 1096 0388 C501      		movw r24,r10
+ 1097 038a B401      		movw r22,r8
+ 1098 038c 0E94 0000 		call __addsf3
+ 131:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     reset();
+ 1100               	.LM112:
+ 1101 0390 6983      		std Y+1,r22
+ 1102 0392 7A83      		std Y+2,r23
+ 1103 0394 8B83      		std Y+3,r24
+ 1104 0396 9C83      		std Y+4,r25
+ 1105 0398 0E94 0000 		call reset
+ 1106               	.LBB122:
+ 1107               	.LBB123:
+ 1109               	.Ltext42:
+ 163:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 	__builtin_avr_delay_cycles(__ticks_dc);
+ 1111               	.LM113:
+ 1112 039c 4FEF      		ldi r20,lo8(159999)
+ 1113 039e E0E7      		ldi r30,hi8(159999)
+ 1114 03a0 F2E0      		ldi r31,hlo8(159999)
+ 1115 03a2 4150      		1: subi r20,1
+ 1116 03a4 E040      		sbci r30,0
+ 1117 03a6 F040      		sbci r31,0
+ 1118 03a8 01F4      		brne 1b
+ 1119 03aa 00C0      		rjmp .
+ 1120 03ac 0000      		nop
+ 1121               	.LBE123:
+ 1122               	.LBE122:
+ 1124               	.Ltext43:
+ 130:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****     _humidity = (_temperature - 25) * (0.01 + 0.00008 * __humidity) + _humidity;
+ 1126               	.LM114:
+ 1127 03ae 6981      		ldd r22,Y+1
+ 1128 03b0 7A81      		ldd r23,Y+2
+ 1129 03b2 8B81      		ldd r24,Y+3
+ 1130 03b4 9C81      		ldd r25,Y+4
+ 1131 03b6 0E94 0000 		call __fixunssfsi
+ 1132 03ba 962F      		mov r25,r22
+ 136:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c **** }
+ 1134               	.LM115:
+ 1135 03bc 812F      		mov r24,r17
+ 1136               	/* epilogue start */
+ 1137 03be 0F90      		pop __tmp_reg__
+ 1138 03c0 0F90      		pop __tmp_reg__
+ 1139 03c2 0F90      		pop __tmp_reg__
+ 1140 03c4 0F90      		pop __tmp_reg__
+ 1141 03c6 DF91      		pop r29
+ 1142 03c8 CF91      		pop r28
+ 1143 03ca 1F91      		pop r17
+ 1144 03cc FF90      		pop r15
+ 1145 03ce EF90      		pop r14
+ 1146 03d0 DF90      		pop r13
+ 1147 03d2 CF90      		pop r12
+ 1148 03d4 BF90      		pop r11
+ 1149 03d6 AF90      		pop r10
+ 1150 03d8 9F90      		pop r9
+ 1151 03da 8F90      		pop r8
+ 1152 03dc 7F90      		pop r7
+ 1153 03de 6F90      		pop r6
+ 1154 03e0 5F90      		pop r5
+ 1155 03e2 4F90      		pop r4
+ 1156 03e4 0895      		ret
+ 1161               	.Lscope10:
+ 1162               		.section	.rodata.str1.1,"aMS",@progbits,1
+ 1163               	.LC0:
+ 1164 0000 4875 6D69 		.string	"Humidity: %.2f, Temp: %.2f \n"
+ 1164      6469 7479 
+ 1164      3A20 252E 
+ 1164      3266 2C20 
+ 1164      5465 6D70 
+ 1165               		.section	.text.startup,"ax",@progbits
+ 1167               	.global	main
+ 1169               	main:
+ 1171               	.Ltext44:
    1:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/main.c **** /*
    2:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/main.c ****  *
    3:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/main.c ****  * [Atmega328p - SHT11]
@@ -1113,290 +1388,118 @@
   21:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/main.c **** 
   22:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/main.c **** 
   23:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/main.c **** int main(void) {
- 902               	.LM96:
- 903               	.LFBB10:
- 904               	/* prologue: function */
- 905               	/* frame size = 0 */
- 906               	/* stack size = 0 */
- 907               	.L__stack_usage = 0
- 908               	.LBB109:
- 909               	.LBB110:
- 911               	.Ltext39:
- 913               	.LM97:
- 914 0000 2DE1      		ldi r18,lo8(29)
- 915 0002 2A95      		1: dec r18
- 916 0004 01F4      		brne 1b
- 917 0006 0000      		nop
- 918               	.LBE110:
- 919               	.LBE109:
- 921               	.Ltext40:
-  24:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/main.c ****     
-  25:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/main.c ****     float humidity_data, humidity_data_com, temperature_data;
-  26:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/main.c ****     uint16_t humidityLin;
-  27:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/main.c ****     
-  28:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/main.c ****     _delay_us(11);                  // Wait for sensor initialization
-  29:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/main.c ****     
-  30:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/main.c ****     serial_init();
- 923               	.LM98:
- 924 0008 0E94 0000 		call serial_init
-  31:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/main.c ****     stdout = &uart_output;
- 926               	.LM99:
- 927 000c 80E0      		ldi r24,lo8(uart_output)
- 928 000e 90E0      		ldi r25,hi8(uart_output)
- 929 0010 9093 0000 		sts __iob+2+1,r25
- 930 0014 8093 0000 		sts __iob+2,r24
-  32:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/main.c ****     
-  33:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/main.c ****     while (1) {
-  34:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/main.c ****         initialize_transmisson();   // Initilize the sensor to send command
-  35:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/main.c ****         send_command(temperature);
-  36:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/main.c ****         _delay_us(80);              // Wait for measurement to complete
-  37:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/main.c ****         temperature_data = calculateMeasuredData(read_data(), temperature);
-  38:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/main.c ****         reset();
-  39:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/main.c ****         send_command(humidity);
-  40:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/main.c ****         _delay_us(80);
-  41:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/main.c ****         humidityLin = read_data();
-  42:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/main.c ****         humidity_data = calculateMeasuredData(humidityLin, humidity);
-  43:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/main.c ****         humidity_data_com = (temperature_data - 25) * (0.01 + 0.00008 * humidityLin) + humidity_dat
-  44:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/main.c ****         printf("Humidity: %.2f (Compansated: %.2f) Temp: %.2f \n",
- 932               	.LM100:
- 933 0018 C0E0      		ldi r28,lo8(.LC0)
- 934 001a D0E0      		ldi r29,hi8(.LC0)
- 935               	.L42:
-  34:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/main.c ****         initialize_transmisson();   // Initilize the sensor to send command
- 937               	.LM101:
- 938 001c 0E94 0000 		call initialize_transmisson
-  35:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/main.c ****         send_command(temperature);
- 940               	.LM102:
- 941 0020 83E0      		ldi r24,lo8(3)
- 942 0022 0E94 0000 		call send_command
- 943               	.LBB111:
- 944               	.LBB112:
- 946               	.Ltext41:
- 948               	.LM103:
- 949 0026 85ED      		ldi r24,lo8(-43)
- 950 0028 8A95      		1: dec r24
- 951 002a 01F4      		brne 1b
- 952 002c 0000      		nop
- 953               	.LBE112:
- 954               	.LBE111:
- 956               	.Ltext42:
-  37:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/main.c ****         temperature_data = calculateMeasuredData(read_data(), temperature);
- 958               	.LM104:
- 959 002e 0E94 0000 		call read_data
- 960               	.LBB113:
- 961               	.LBB114:
- 963               	.Ltext43:
- 109:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****             tempLin = -40.00 + 0.01 * measuredData;
- 965               	.LM105:
- 966 0032 BC01      		movw r22,r24
- 967 0034 80E0      		ldi r24,0
- 968 0036 90E0      		ldi r25,0
- 969 0038 0E94 0000 		call __floatunsisf
- 970 003c 2AE0      		ldi r18,lo8(10)
- 971 003e 37ED      		ldi r19,lo8(-41)
- 972 0040 43E2      		ldi r20,lo8(35)
- 973 0042 5CE3      		ldi r21,lo8(60)
- 974 0044 0E94 0000 		call __mulsf3
- 975 0048 20E0      		ldi r18,0
- 976 004a 30E0      		ldi r19,0
- 977 004c 40E2      		ldi r20,lo8(32)
- 978 004e 52E4      		ldi r21,lo8(66)
- 979 0050 0E94 0000 		call __subsf3
- 980 0054 1B01      		movw r2,r22
- 981 0056 2C01      		movw r4,r24
- 982               	.LBE114:
- 983               	.LBE113:
- 985               	.Ltext44:
-  38:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/main.c ****         reset();
- 987               	.LM106:
- 988 0058 0E94 0000 		call reset
-  39:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/main.c ****         send_command(humidity);
- 990               	.LM107:
- 991 005c 85E0      		ldi r24,lo8(5)
- 992 005e 0E94 0000 		call send_command
- 993               	.LBB115:
- 994               	.LBB116:
- 996               	.Ltext45:
- 998               	.LM108:
- 999 0062 95ED      		ldi r25,lo8(-43)
- 1000 0064 9A95      		1: dec r25
- 1001 0066 01F4      		brne 1b
- 1002 0068 0000      		nop
- 1003               	.LBE116:
- 1004               	.LBE115:
- 1006               	.Ltext46:
-  41:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/main.c ****         humidityLin = read_data();
- 1008               	.LM109:
- 1009 006a 0E94 0000 		call read_data
- 1010               	.LBB117:
- 1011               	.LBB118:
- 1012               	.LBB119:
- 1013               	.LBB120:
- 1015               	.Ltext47:
- 105:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****             humiLin = measuredData * 0.0405 - 2.8 * pow(10, -6) * pow(measuredData, 2) - 4;
- 1017               	.LM110:
- 1018 006e BC01      		movw r22,r24
- 1019 0070 80E0      		ldi r24,0
- 1020 0072 90E0      		ldi r25,0
- 1021 0074 0E94 0000 		call __floatunsisf
- 1022 0078 4B01      		movw r8,r22
- 1023 007a 5C01      		movw r10,r24
- 1024 007c 24E5      		ldi r18,lo8(84)
- 1025 007e 33EE      		ldi r19,lo8(-29)
- 1026 0080 45E2      		ldi r20,lo8(37)
- 1027 0082 5DE3      		ldi r21,lo8(61)
- 1028 0084 0E94 0000 		call __mulsf3
- 1029 0088 6B01      		movw r12,r22
- 1030 008a 7C01      		movw r14,r24
- 1031 008c A501      		movw r20,r10
- 1032 008e 9401      		movw r18,r8
- 1033 0090 C501      		movw r24,r10
- 1034 0092 B401      		movw r22,r8
- 1035 0094 0E94 0000 		call __mulsf3
- 1036 0098 22EA      		ldi r18,lo8(-94)
- 1037 009a 37EE      		ldi r19,lo8(-25)
- 1038 009c 4BE3      		ldi r20,lo8(59)
- 1039 009e 56E3      		ldi r21,lo8(54)
- 1040 00a0 0E94 0000 		call __mulsf3
- 1041 00a4 9B01      		movw r18,r22
- 1042 00a6 AC01      		movw r20,r24
- 1043 00a8 C701      		movw r24,r14
- 1044 00aa B601      		movw r22,r12
- 1045 00ac 0E94 0000 		call __subsf3
- 1046 00b0 20E0      		ldi r18,0
- 1047 00b2 30E0      		ldi r19,0
- 1048 00b4 40E8      		ldi r20,lo8(-128)
- 1049 00b6 50E4      		ldi r21,lo8(64)
- 1050 00b8 0E94 0000 		call __subsf3
- 1051 00bc 162F      		mov r17,r22
- 1052 00be 072F      		mov r16,r23
- 1053 00c0 782E      		mov r7,r24
- 1054 00c2 692E      		mov r6,r25
- 1055               	.LBE120:
- 1056               	.LBE119:
- 1057               	.LBE118:
- 1058               	.LBE117:
- 1060               	.Ltext48:
- 1062               	.LM111:
- 1063 00c4 5F92      		push r5
- 1064 00c6 4F92      		push r4
- 1065 00c8 3F92      		push r3
- 1066 00ca 2F92      		push r2
-  43:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/main.c ****         humidity_data_com = (temperature_data - 25) * (0.01 + 0.00008 * humidityLin) + humidity_dat
- 1068               	.LM112:
- 1069 00cc 20E0      		ldi r18,0
- 1070 00ce 30E0      		ldi r19,0
- 1071 00d0 48EC      		ldi r20,lo8(-56)
- 1072 00d2 51E4      		ldi r21,lo8(65)
- 1073 00d4 622D      		mov r22,r2
- 1074 00d6 732D      		mov r23,r3
- 1075 00d8 842D      		mov r24,r4
- 1076 00da 952D      		mov r25,r5
- 1077 00dc 0E94 0000 		call __subsf3
- 1078 00e0 6B01      		movw r12,r22
- 1079 00e2 7C01      		movw r14,r24
- 1080 00e4 2CEA      		ldi r18,lo8(-84)
- 1081 00e6 35EC      		ldi r19,lo8(-59)
- 1082 00e8 47EA      		ldi r20,lo8(-89)
- 1083 00ea 58E3      		ldi r21,lo8(56)
- 1084 00ec C501      		movw r24,r10
- 1085 00ee B401      		movw r22,r8
- 1086 00f0 0E94 0000 		call __mulsf3
- 1087 00f4 2AE0      		ldi r18,lo8(10)
- 1088 00f6 37ED      		ldi r19,lo8(-41)
- 1089 00f8 43E2      		ldi r20,lo8(35)
- 1090 00fa 5CE3      		ldi r21,lo8(60)
- 1091 00fc 0E94 0000 		call __addsf3
- 1092 0100 9B01      		movw r18,r22
- 1093 0102 AC01      		movw r20,r24
- 1094 0104 C701      		movw r24,r14
- 1095 0106 B601      		movw r22,r12
- 1096 0108 0E94 0000 		call __mulsf3
- 1097 010c D801      		movw r26,r16
- 1098 010e F301      		movw r30,r6
- 1099 0110 2B2F      		mov r18,r27
- 1100 0112 3A2F      		mov r19,r26
- 1101 0114 4F2F      		mov r20,r31
- 1102 0116 5E2F      		mov r21,r30
- 1103 0118 0E94 0000 		call __addsf3
- 1105               	.LM113:
- 1106 011c 9F93      		push r25
- 1107 011e 8F93      		push r24
- 1108 0120 7F93      		push r23
- 1109 0122 6F93      		push r22
- 1110 0124 6F92      		push r6
- 1111 0126 7F92      		push r7
- 1112 0128 0F93      		push r16
- 1113 012a 1F93      		push r17
- 1114 012c DF93      		push r29
- 1115 012e CF93      		push r28
- 1116 0130 0E94 0000 		call printf
-  45:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/main.c ****                (double)humidity_data, (double)humidity_data_com, (double)temperature_data);
-  46:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/main.c ****         reset();
- 1118               	.LM114:
- 1119 0134 0E94 0000 		call reset
- 1120               	.LBB121:
- 1121               	.LBB122:
- 1123               	.Ltext49:
- 163:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 	__builtin_avr_delay_cycles(__ticks_dc);
- 1125               	.LM115:
- 1126 0138 9FEF      		ldi r25,lo8(1599999)
- 1127 013a 29E6      		ldi r18,hi8(1599999)
- 1128 013c 88E1      		ldi r24,hlo8(1599999)
- 1129 013e 9150      		1: subi r25,1
- 1130 0140 2040      		sbci r18,0
- 1131 0142 8040      		sbci r24,0
- 1132 0144 01F4      		brne 1b
- 1133 0146 00C0      		rjmp .
- 1134 0148 0000      		nop
- 1135 014a 8DB7      		in r24,__SP_L__
- 1136 014c 9EB7      		in r25,__SP_H__
- 1137 014e 0E96      		adiw r24,14
- 1138 0150 0FB6      		in __tmp_reg__,__SREG__
- 1139 0152 F894      		cli
- 1140 0154 9EBF      		out __SP_H__,r25
- 1141 0156 0FBE      		out __SREG__,__tmp_reg__
- 1142 0158 8DBF      		out __SP_L__,r24
- 1143 015a 00C0      		rjmp .L42
- 1144               	.LBE122:
- 1145               	.LBE121:
- 1150               	.Lscope10:
- 1151               	.global	uart_output
- 1152               		.data
- 1155               	uart_output:
- 1156 0000 0000 00   		.zero	3
- 1157 0003 02        		.byte	2
- 1158 0004 0000 0000 		.zero	4
- 1159 0008 0000      		.word	gs(send_uart_char)
- 1160 000a 0000      		.word	0
- 1161 000c 0000      		.word	0
- 1163               		.text
- 1165               	.Letext0:
- 1166               		.ident	"GCC: (GNU) 4.8.1"
- 1167               	.global __do_copy_data
+ 1173               	.LM116:
+ 1174               	.LFBB11:
+ 1175               	/* prologue: function */
+ 1176               	/* frame size = 0 */
+ 1177               	/* stack size = 0 */
+ 1178               	.L__stack_usage = 0
+ 1179               	.LBB124:
+ 1180               	.LBB125:
+ 1182               	.Ltext45:
+ 1184               	.LM117:
+ 1185 0000 8DE1      		ldi r24,lo8(29)
+ 1186 0002 8A95      		1: dec r24
+ 1187 0004 01F4      		brne 1b
+ 1188 0006 0000      		nop
+ 1189               	.LBE125:
+ 1190               	.LBE124:
+ 1192               	.Ltext46:
+  24:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/main.c ****     _delay_us(11);                  // Wait for sensor initialization
+  25:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/main.c ****     serial_init();
+ 1194               	.LM118:
+ 1195 0008 0E94 0000 		call serial_init
+  26:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/main.c ****     stdout = &uart_output; // Assign output
+ 1197               	.LM119:
+ 1198 000c 80E0      		ldi r24,lo8(uart_output)
+ 1199 000e 90E0      		ldi r25,hi8(uart_output)
+ 1200 0010 9093 0000 		sts __iob+2+1,r25
+ 1201 0014 8093 0000 		sts __iob+2,r24
+ 1202               	.LBB126:
+  27:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/main.c ****     while (1) {
+  28:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/main.c ****         SHTData data;
+  29:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/main.c ****         data = shtSense();
+  30:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/main.c ****         printf("Humidity: %.2f, Temp: %.2f \n",
+ 1204               	.LM120:
+ 1205 0018 C0E0      		ldi r28,lo8(.LC0)
+ 1206 001a D0E0      		ldi r29,hi8(.LC0)
+ 1207               	.L43:
+  29:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/main.c ****         data = shtSense();
+ 1209               	.LM121:
+ 1210 001c 0E94 0000 		call shtSense
+ 1211 0020 192F      		mov r17,r25
+ 1213               	.LM122:
+ 1214 0022 682F      		mov r22,r24
+ 1215 0024 70E0      		ldi r23,0
+ 1216 0026 80E0      		ldi r24,0
+ 1217 0028 90E0      		ldi r25,0
+ 1218 002a 0E94 0000 		call __floatunsisf
+ 1219 002e 9F93      		push r25
+ 1220 0030 8F93      		push r24
+ 1221 0032 7F93      		push r23
+ 1222 0034 6F93      		push r22
+ 1223 0036 612F      		mov r22,r17
+ 1224 0038 70E0      		ldi r23,0
+ 1225 003a 80E0      		ldi r24,0
+ 1226 003c 90E0      		ldi r25,0
+ 1227 003e 0E94 0000 		call __floatunsisf
+ 1228 0042 9F93      		push r25
+ 1229 0044 8F93      		push r24
+ 1230 0046 7F93      		push r23
+ 1231 0048 6F93      		push r22
+ 1232 004a DF93      		push r29
+ 1233 004c CF93      		push r28
+ 1234 004e 0E94 0000 		call printf
+ 1235 0052 8DB7      		in r24,__SP_L__
+ 1236 0054 9EB7      		in r25,__SP_H__
+ 1237 0056 0A96      		adiw r24,10
+ 1238 0058 0FB6      		in __tmp_reg__,__SREG__
+ 1239 005a F894      		cli
+ 1240 005c 9EBF      		out __SP_H__,r25
+ 1241 005e 0FBE      		out __SREG__,__tmp_reg__
+ 1242 0060 8DBF      		out __SP_L__,r24
+ 1243 0062 00C0      		rjmp .L43
+ 1244               	.LBE126:
+ 1246               	.Lscope11:
+ 1247               	.global	uart_output
+ 1248               		.data
+ 1251               	uart_output:
+ 1252 0000 0000 00   		.zero	3
+ 1253 0003 02        		.byte	2
+ 1254 0004 0000 0000 		.zero	4
+ 1255 0008 0000      		.word	gs(send_uart_char)
+ 1256 000a 0000      		.word	0
+ 1257 000c 0000      		.word	0
+ 1259               		.text
+ 1261               	.Letext0:
+ 1262               		.ident	"GCC: (GNU) 4.8.1"
+ 1263               	.global __do_copy_data
 DEFINED SYMBOLS
                             *ABS*:00000000 main.c
-/var/folders/2t/x0mw6nss4_z3npyvmny7gnnm0000gn/T//ccEpbRMJ.s:2      *ABS*:0000003e __SP_H__
-/var/folders/2t/x0mw6nss4_z3npyvmny7gnnm0000gn/T//ccEpbRMJ.s:3      *ABS*:0000003d __SP_L__
-/var/folders/2t/x0mw6nss4_z3npyvmny7gnnm0000gn/T//ccEpbRMJ.s:4      *ABS*:0000003f __SREG__
-/var/folders/2t/x0mw6nss4_z3npyvmny7gnnm0000gn/T//ccEpbRMJ.s:5      *ABS*:00000000 __tmp_reg__
-/var/folders/2t/x0mw6nss4_z3npyvmny7gnnm0000gn/T//ccEpbRMJ.s:6      *ABS*:00000001 __zero_reg__
-/var/folders/2t/x0mw6nss4_z3npyvmny7gnnm0000gn/T//ccEpbRMJ.s:114    .text:00000000 send_uart_char
-/var/folders/2t/x0mw6nss4_z3npyvmny7gnnm0000gn/T//ccEpbRMJ.s:153    .text:0000001e initialize_transmisson
-/var/folders/2t/x0mw6nss4_z3npyvmny7gnnm0000gn/T//ccEpbRMJ.s:277    .text:00000062 send_command
-/var/folders/2t/x0mw6nss4_z3npyvmny7gnnm0000gn/T//ccEpbRMJ.s:450    .text:000000da reset
-/var/folders/2t/x0mw6nss4_z3npyvmny7gnnm0000gn/T//ccEpbRMJ.s:522    .text:00000102 calculateMeasuredData
-/var/folders/2t/x0mw6nss4_z3npyvmny7gnnm0000gn/T//ccEpbRMJ.s:629    .text:000001a4 serial_init
-/var/folders/2t/x0mw6nss4_z3npyvmny7gnnm0000gn/T//ccEpbRMJ.s:656    .text:000001b8 receiveBytes
-/var/folders/2t/x0mw6nss4_z3npyvmny7gnnm0000gn/T//ccEpbRMJ.s:748    .text:000001fa ack
-/var/folders/2t/x0mw6nss4_z3npyvmny7gnnm0000gn/T//ccEpbRMJ.s:824    .text:00000224 read_data
-/var/folders/2t/x0mw6nss4_z3npyvmny7gnnm0000gn/T//ccEpbRMJ.s:898    .text.startup:00000000 main
-/var/folders/2t/x0mw6nss4_z3npyvmny7gnnm0000gn/T//ccEpbRMJ.s:1155   .data:00000000 uart_output
+/var/folders/2t/x0mw6nss4_z3npyvmny7gnnm0000gn/T//ccUhOcyR.s:2      *ABS*:0000003e __SP_H__
+/var/folders/2t/x0mw6nss4_z3npyvmny7gnnm0000gn/T//ccUhOcyR.s:3      *ABS*:0000003d __SP_L__
+/var/folders/2t/x0mw6nss4_z3npyvmny7gnnm0000gn/T//ccUhOcyR.s:4      *ABS*:0000003f __SREG__
+/var/folders/2t/x0mw6nss4_z3npyvmny7gnnm0000gn/T//ccUhOcyR.s:5      *ABS*:00000000 __tmp_reg__
+/var/folders/2t/x0mw6nss4_z3npyvmny7gnnm0000gn/T//ccUhOcyR.s:6      *ABS*:00000001 __zero_reg__
+/var/folders/2t/x0mw6nss4_z3npyvmny7gnnm0000gn/T//ccUhOcyR.s:117    .text:00000000 send_uart_char
+/var/folders/2t/x0mw6nss4_z3npyvmny7gnnm0000gn/T//ccUhOcyR.s:156    .text:0000001e initialize_transmisson
+/var/folders/2t/x0mw6nss4_z3npyvmny7gnnm0000gn/T//ccUhOcyR.s:280    .text:00000062 send_command
+/var/folders/2t/x0mw6nss4_z3npyvmny7gnnm0000gn/T//ccUhOcyR.s:453    .text:000000da reset
+/var/folders/2t/x0mw6nss4_z3npyvmny7gnnm0000gn/T//ccUhOcyR.s:525    .text:00000102 calculateMeasuredData
+/var/folders/2t/x0mw6nss4_z3npyvmny7gnnm0000gn/T//ccUhOcyR.s:632    .text:000001a4 serial_init
+/var/folders/2t/x0mw6nss4_z3npyvmny7gnnm0000gn/T//ccUhOcyR.s:659    .text:000001b8 receiveBytes
+/var/folders/2t/x0mw6nss4_z3npyvmny7gnnm0000gn/T//ccUhOcyR.s:751    .text:000001fa ack
+/var/folders/2t/x0mw6nss4_z3npyvmny7gnnm0000gn/T//ccUhOcyR.s:827    .text:00000224 read_data
+/var/folders/2t/x0mw6nss4_z3npyvmny7gnnm0000gn/T//ccUhOcyR.s:899    .text:00000266 shtSense
+/var/folders/2t/x0mw6nss4_z3npyvmny7gnnm0000gn/T//ccUhOcyR.s:1169   .text.startup:00000000 main
+/var/folders/2t/x0mw6nss4_z3npyvmny7gnnm0000gn/T//ccUhOcyR.s:1251   .data:00000000 uart_output
 
 UNDEFINED SYMBOLS
 __floatunsisf
 __mulsf3
 __subsf3
+__fixunssfsi
+__floatsisf
 __addsf3
 __iob
 printf
