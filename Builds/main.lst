@@ -13,8 +13,8 @@
    2:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c **** //  sht.c
    3:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c **** //  avrSHT
    4:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c **** //
-   5:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c **** //  Created by Atakan ERCIYAS on 10/08/16.
-   6:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c **** //  Copyright © 2016 Atakan ERCIYAS. All rights reserved.
+   5:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c **** //  Created by aercys on 10/08/16.
+   6:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c **** //  Copyright © 2016 aercys. All rights reserved.
    7:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c **** //
    8:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c **** 
    9:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c **** #include <stdio.h>
@@ -438,10 +438,10 @@
  244:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 
  245:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 	__builtin_avr_delay_cycles(__ticks_dc);
  173               	.LM9:
- 174 0024 8AE0      		ldi r24,lo8(10)
+ 174 0024 85E0      		ldi r24,lo8(5)
  175 0026 8A95      		1: dec r24
  176 0028 01F4      		brne 1b
- 177 002a 00C0      		rjmp .
+ 177 002a 0000      		nop
  178               	.LBE50:
  179               	.LBE49:
  181               	.Ltext3:
@@ -452,10 +452,10 @@
  186               	.LBB52:
  188               	.Ltext4:
  190               	.LM11:
- 191 002e 8AE0      		ldi r24,lo8(10)
+ 191 002e 85E0      		ldi r24,lo8(5)
  192 0030 8A95      		1: dec r24
  193 0032 01F4      		brne 1b
- 194 0034 00C0      		rjmp .
+ 194 0034 0000      		nop
  195               	.LBE52:
  196               	.LBE51:
  198               	.Ltext5:
@@ -466,10 +466,10 @@
  203               	.LBB54:
  205               	.Ltext6:
  207               	.LM13:
- 208 0038 8AE0      		ldi r24,lo8(10)
+ 208 0038 85E0      		ldi r24,lo8(5)
  209 003a 8A95      		1: dec r24
  210 003c 01F4      		brne 1b
- 211 003e 00C0      		rjmp .
+ 211 003e 0000      		nop
  212               	.LBE54:
  213               	.LBE53:
  215               	.Ltext7:
@@ -480,10 +480,10 @@
  220               	.LBB56:
  222               	.Ltext8:
  224               	.LM15:
- 225 0042 8AE2      		ldi r24,lo8(42)
+ 225 0042 85E1      		ldi r24,lo8(21)
  226 0044 8A95      		1: dec r24
  227 0046 01F4      		brne 1b
- 228 0048 00C0      		rjmp .
+ 228 0048 0000      		nop
  229               	.LBE56:
  230               	.LBE55:
  232               	.Ltext9:
@@ -494,10 +494,10 @@
  237               	.LBB58:
  239               	.Ltext10:
  241               	.LM17:
- 242 004c 8AE0      		ldi r24,lo8(10)
+ 242 004c 85E0      		ldi r24,lo8(5)
  243 004e 8A95      		1: dec r24
  244 0050 01F4      		brne 1b
- 245 0052 00C0      		rjmp .
+ 245 0052 0000      		nop
  246               	.LBE58:
  247               	.LBE57:
  249               	.Ltext11:
@@ -508,10 +508,10 @@
  254               	.LBB60:
  256               	.Ltext12:
  258               	.LM19:
- 259 0056 8AE0      		ldi r24,lo8(10)
+ 259 0056 85E0      		ldi r24,lo8(5)
  260 0058 8A95      		1: dec r24
  261 005a 01F4      		brne 1b
- 262 005c 00C0      		rjmp .
+ 262 005c 0000      		nop
  263               	.LBE60:
  264               	.LBE59:
  266               	.Ltext13:
@@ -533,10 +533,10 @@
  286               	.LBB62:
  288               	.Ltext14:
  290               	.LM22:
- 291 0062 65E1      		ldi r22,lo8(21)
+ 291 0062 6AE0      		ldi r22,lo8(10)
  292 0064 6A95      		1: dec r22
  293 0066 01F4      		brne 1b
- 294 0068 0000      		nop
+ 294 0068 00C0      		rjmp .
  295               	.LBE62:
  296               	.LBE61:
  298               	.Ltext15:
@@ -586,10 +586,10 @@
  342               	.LBB65:
  344               	.Ltext16:
  346               	.LM30:
- 347 0096 B5E1      		ldi r27,lo8(21)
+ 347 0096 BAE0      		ldi r27,lo8(10)
  348 0098 BA95      		1: dec r27
  349 009a 01F4      		brne 1b
- 350 009c 0000      		nop
+ 350 009c 00C0      		rjmp .
  351               	.LBE65:
  352               	.LBE64:
  354               	.Ltext17:
@@ -600,10 +600,10 @@
  359               	.LBB67:
  361               	.Ltext18:
  363               	.LM32:
- 364 00a0 65E1      		ldi r22,lo8(21)
+ 364 00a0 6AE0      		ldi r22,lo8(10)
  365 00a2 6A95      		1: dec r22
  366 00a4 01F4      		brne 1b
- 367 00a6 0000      		nop
+ 367 00a6 00C0      		rjmp .
  368               	.LBE67:
  369               	.LBE66:
  371               	.Ltext19:
@@ -628,10 +628,10 @@
  390               	.LBB69:
  392               	.Ltext20:
  394               	.LM36:
- 395 00ba 85E1      		ldi r24,lo8(21)
+ 395 00ba 8AE0      		ldi r24,lo8(10)
  396 00bc 8A95      		1: dec r24
  397 00be 01F4      		brne 1b
- 398 00c0 0000      		nop
+ 398 00c0 00C0      		rjmp .
  399               	.LBE69:
  400               	.LBE68:
  402               	.Ltext21:
@@ -642,10 +642,10 @@
  407               	.LBB71:
  409               	.Ltext22:
  411               	.LM38:
- 412 00c4 95E1      		ldi r25,lo8(21)
+ 412 00c4 9AE0      		ldi r25,lo8(10)
  413 00c6 9A95      		1: dec r25
  414 00c8 01F4      		brne 1b
- 415 00ca 0000      		nop
+ 415 00ca 00C0      		rjmp .
  416               	.LBE71:
  417               	.LBE70:
  419               	.Ltext23:
@@ -693,10 +693,10 @@
  470               	.LBB75:
  472               	.Ltext24:
  474               	.LM46:
- 475 00e4 25E1      		ldi r18,lo8(21)
+ 475 00e4 2AE0      		ldi r18,lo8(10)
  476 00e6 2A95      		1: dec r18
  477 00e8 01F4      		brne 1b
- 478 00ea 0000      		nop
+ 478 00ea 00C0      		rjmp .
  479               	.LBE75:
  480               	.LBE74:
  482               	.Ltext25:
@@ -707,10 +707,10 @@
  487               	.LBB77:
  489               	.Ltext26:
  491               	.LM48:
- 492 00ee 25E1      		ldi r18,lo8(21)
+ 492 00ee 2AE0      		ldi r18,lo8(10)
  493 00f0 2A95      		1: dec r18
  494 00f2 01F4      		brne 1b
- 495 00f4 0000      		nop
+ 495 00f4 00C0      		rjmp .
  496               	.LBE77:
  497               	.LBE76:
  499               	.Ltext27:
@@ -890,10 +890,10 @@
  679               	.LBB84:
  681               	.Ltext28:
  683               	.LM67:
- 684 01c4 45E1      		ldi r20,lo8(21)
+ 684 01c4 4AE0      		ldi r20,lo8(10)
  685 01c6 4A95      		1: dec r20
  686 01c8 01F4      		brne 1b
- 687 01ca 0000      		nop
+ 687 01ca 00C0      		rjmp .
  688 01cc 6081      		ld r22,Z
  689               	.LBE84:
  690               	.LBE83:
@@ -930,10 +930,10 @@
  722               	.LBB86:
  724               	.Ltext30:
  726               	.LM73:
- 727 01ea 45E1      		ldi r20,lo8(21)
+ 727 01ea 4AE0      		ldi r20,lo8(10)
  728 01ec 4A95      		1: dec r20
  729 01ee 01F4      		brne 1b
- 730 01f0 0000      		nop
+ 730 01f0 00C0      		rjmp .
  731               	.LBE86:
  732               	.LBE85:
  733 01f2 2150      		subi r18,1
@@ -969,10 +969,10 @@
  764               	.LBB88:
  766               	.Ltext32:
  768               	.LM78:
- 769 0200 85E1      		ldi r24,lo8(21)
+ 769 0200 8AE0      		ldi r24,lo8(10)
  770 0202 8A95      		1: dec r24
  771 0204 01F4      		brne 1b
- 772 0206 0000      		nop
+ 772 0206 00C0      		rjmp .
  773               	.LBE88:
  774               	.LBE87:
  776               	.Ltext33:
@@ -984,10 +984,10 @@
  781               	.LBB90:
  783               	.Ltext34:
  785               	.LM80:
- 786 020a 85E1      		ldi r24,lo8(21)
+ 786 020a 8AE0      		ldi r24,lo8(10)
  787 020c 8A95      		1: dec r24
  788 020e 01F4      		brne 1b
- 789 0210 0000      		nop
+ 789 0210 00C0      		rjmp .
  790               	.LBE90:
  791               	.LBE89:
  793               	.Ltext35:
@@ -999,10 +999,10 @@
  798               	.LBB92:
  800               	.Ltext36:
  802               	.LM82:
- 803 0214 85E1      		ldi r24,lo8(21)
+ 803 0214 8AE0      		ldi r24,lo8(10)
  804 0216 8A95      		1: dec r24
  805 0218 01F4      		brne 1b
- 806 021a 0000      		nop
+ 806 021a 00C0      		rjmp .
  807               	.LBE92:
  808               	.LBE91:
  810               	.Ltext37:
@@ -1123,10 +1123,10 @@
  909               	.LBB110:
  911               	.Ltext39:
  913               	.LM97:
- 914 0000 2AE3      		ldi r18,lo8(58)
+ 914 0000 2DE1      		ldi r18,lo8(29)
  915 0002 2A95      		1: dec r18
  916 0004 01F4      		brne 1b
- 917 0006 00C0      		rjmp .
+ 917 0006 0000      		nop
  918               	.LBE110:
  919               	.LBE109:
  921               	.Ltext40:
@@ -1173,229 +1173,225 @@
  944               	.LBB112:
  946               	.Ltext41:
  948               	.LM103:
- 949 0026 8FE3      		ldi r24,lo8(319)
- 950 0028 91E0      		ldi r25,hi8(319)
- 951 002a 0197      		1: sbiw r24,1
- 952 002c 01F4      		brne 1b
- 953 002e 00C0      		rjmp .
- 954 0030 0000      		nop
- 955               	.LBE112:
- 956               	.LBE111:
- 958               	.Ltext42:
+ 949 0026 85ED      		ldi r24,lo8(-43)
+ 950 0028 8A95      		1: dec r24
+ 951 002a 01F4      		brne 1b
+ 952 002c 0000      		nop
+ 953               	.LBE112:
+ 954               	.LBE111:
+ 956               	.Ltext42:
   37:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/main.c ****         temperature_data = calculateMeasuredData(read_data(), temperature);
- 960               	.LM104:
- 961 0032 0E94 0000 		call read_data
- 962               	.LBB113:
- 963               	.LBB114:
- 965               	.Ltext43:
+ 958               	.LM104:
+ 959 002e 0E94 0000 		call read_data
+ 960               	.LBB113:
+ 961               	.LBB114:
+ 963               	.Ltext43:
  109:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****             tempLin = -40.00 + 0.01 * measuredData;
- 967               	.LM105:
- 968 0036 BC01      		movw r22,r24
- 969 0038 80E0      		ldi r24,0
- 970 003a 90E0      		ldi r25,0
- 971 003c 0E94 0000 		call __floatunsisf
- 972 0040 2AE0      		ldi r18,lo8(10)
- 973 0042 37ED      		ldi r19,lo8(-41)
- 974 0044 43E2      		ldi r20,lo8(35)
- 975 0046 5CE3      		ldi r21,lo8(60)
- 976 0048 0E94 0000 		call __mulsf3
- 977 004c 20E0      		ldi r18,0
- 978 004e 30E0      		ldi r19,0
- 979 0050 40E2      		ldi r20,lo8(32)
- 980 0052 52E4      		ldi r21,lo8(66)
- 981 0054 0E94 0000 		call __subsf3
- 982 0058 1B01      		movw r2,r22
- 983 005a 2C01      		movw r4,r24
- 984               	.LBE114:
- 985               	.LBE113:
- 987               	.Ltext44:
+ 965               	.LM105:
+ 966 0032 BC01      		movw r22,r24
+ 967 0034 80E0      		ldi r24,0
+ 968 0036 90E0      		ldi r25,0
+ 969 0038 0E94 0000 		call __floatunsisf
+ 970 003c 2AE0      		ldi r18,lo8(10)
+ 971 003e 37ED      		ldi r19,lo8(-41)
+ 972 0040 43E2      		ldi r20,lo8(35)
+ 973 0042 5CE3      		ldi r21,lo8(60)
+ 974 0044 0E94 0000 		call __mulsf3
+ 975 0048 20E0      		ldi r18,0
+ 976 004a 30E0      		ldi r19,0
+ 977 004c 40E2      		ldi r20,lo8(32)
+ 978 004e 52E4      		ldi r21,lo8(66)
+ 979 0050 0E94 0000 		call __subsf3
+ 980 0054 1B01      		movw r2,r22
+ 981 0056 2C01      		movw r4,r24
+ 982               	.LBE114:
+ 983               	.LBE113:
+ 985               	.Ltext44:
   38:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/main.c ****         reset();
- 989               	.LM106:
- 990 005c 0E94 0000 		call reset
+ 987               	.LM106:
+ 988 0058 0E94 0000 		call reset
   39:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/main.c ****         send_command(humidity);
- 992               	.LM107:
- 993 0060 85E0      		ldi r24,lo8(5)
- 994 0062 0E94 0000 		call send_command
- 995               	.LBB115:
- 996               	.LBB116:
- 998               	.Ltext45:
- 1000               	.LM108:
- 1001 0066 8FE3      		ldi r24,lo8(319)
- 1002 0068 91E0      		ldi r25,hi8(319)
- 1003 006a 0197      		1: sbiw r24,1
- 1004 006c 01F4      		brne 1b
- 1005 006e 00C0      		rjmp .
- 1006 0070 0000      		nop
- 1007               	.LBE116:
- 1008               	.LBE115:
- 1010               	.Ltext46:
+ 990               	.LM107:
+ 991 005c 85E0      		ldi r24,lo8(5)
+ 992 005e 0E94 0000 		call send_command
+ 993               	.LBB115:
+ 994               	.LBB116:
+ 996               	.Ltext45:
+ 998               	.LM108:
+ 999 0062 95ED      		ldi r25,lo8(-43)
+ 1000 0064 9A95      		1: dec r25
+ 1001 0066 01F4      		brne 1b
+ 1002 0068 0000      		nop
+ 1003               	.LBE116:
+ 1004               	.LBE115:
+ 1006               	.Ltext46:
   41:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/main.c ****         humidityLin = read_data();
- 1012               	.LM109:
- 1013 0072 0E94 0000 		call read_data
- 1014               	.LBB117:
- 1015               	.LBB118:
- 1016               	.LBB119:
- 1017               	.LBB120:
- 1019               	.Ltext47:
+ 1008               	.LM109:
+ 1009 006a 0E94 0000 		call read_data
+ 1010               	.LBB117:
+ 1011               	.LBB118:
+ 1012               	.LBB119:
+ 1013               	.LBB120:
+ 1015               	.Ltext47:
  105:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/sht/sht.c ****             humiLin = measuredData * 0.0405 - 2.8 * pow(10, -6) * pow(measuredData, 2) - 4;
- 1021               	.LM110:
- 1022 0076 BC01      		movw r22,r24
- 1023 0078 80E0      		ldi r24,0
- 1024 007a 90E0      		ldi r25,0
- 1025 007c 0E94 0000 		call __floatunsisf
- 1026 0080 4B01      		movw r8,r22
- 1027 0082 5C01      		movw r10,r24
- 1028 0084 24E5      		ldi r18,lo8(84)
- 1029 0086 33EE      		ldi r19,lo8(-29)
- 1030 0088 45E2      		ldi r20,lo8(37)
- 1031 008a 5DE3      		ldi r21,lo8(61)
- 1032 008c 0E94 0000 		call __mulsf3
- 1033 0090 6B01      		movw r12,r22
- 1034 0092 7C01      		movw r14,r24
- 1035 0094 A501      		movw r20,r10
- 1036 0096 9401      		movw r18,r8
- 1037 0098 C501      		movw r24,r10
- 1038 009a B401      		movw r22,r8
- 1039 009c 0E94 0000 		call __mulsf3
- 1040 00a0 22EA      		ldi r18,lo8(-94)
- 1041 00a2 37EE      		ldi r19,lo8(-25)
- 1042 00a4 4BE3      		ldi r20,lo8(59)
- 1043 00a6 56E3      		ldi r21,lo8(54)
- 1044 00a8 0E94 0000 		call __mulsf3
- 1045 00ac 9B01      		movw r18,r22
- 1046 00ae AC01      		movw r20,r24
- 1047 00b0 C701      		movw r24,r14
- 1048 00b2 B601      		movw r22,r12
- 1049 00b4 0E94 0000 		call __subsf3
- 1050 00b8 20E0      		ldi r18,0
- 1051 00ba 30E0      		ldi r19,0
- 1052 00bc 40E8      		ldi r20,lo8(-128)
- 1053 00be 50E4      		ldi r21,lo8(64)
- 1054 00c0 0E94 0000 		call __subsf3
- 1055 00c4 162F      		mov r17,r22
- 1056 00c6 072F      		mov r16,r23
- 1057 00c8 782E      		mov r7,r24
- 1058 00ca 692E      		mov r6,r25
- 1059               	.LBE120:
- 1060               	.LBE119:
- 1061               	.LBE118:
- 1062               	.LBE117:
- 1064               	.Ltext48:
- 1066               	.LM111:
- 1067 00cc 5F92      		push r5
- 1068 00ce 4F92      		push r4
- 1069 00d0 3F92      		push r3
- 1070 00d2 2F92      		push r2
+ 1017               	.LM110:
+ 1018 006e BC01      		movw r22,r24
+ 1019 0070 80E0      		ldi r24,0
+ 1020 0072 90E0      		ldi r25,0
+ 1021 0074 0E94 0000 		call __floatunsisf
+ 1022 0078 4B01      		movw r8,r22
+ 1023 007a 5C01      		movw r10,r24
+ 1024 007c 24E5      		ldi r18,lo8(84)
+ 1025 007e 33EE      		ldi r19,lo8(-29)
+ 1026 0080 45E2      		ldi r20,lo8(37)
+ 1027 0082 5DE3      		ldi r21,lo8(61)
+ 1028 0084 0E94 0000 		call __mulsf3
+ 1029 0088 6B01      		movw r12,r22
+ 1030 008a 7C01      		movw r14,r24
+ 1031 008c A501      		movw r20,r10
+ 1032 008e 9401      		movw r18,r8
+ 1033 0090 C501      		movw r24,r10
+ 1034 0092 B401      		movw r22,r8
+ 1035 0094 0E94 0000 		call __mulsf3
+ 1036 0098 22EA      		ldi r18,lo8(-94)
+ 1037 009a 37EE      		ldi r19,lo8(-25)
+ 1038 009c 4BE3      		ldi r20,lo8(59)
+ 1039 009e 56E3      		ldi r21,lo8(54)
+ 1040 00a0 0E94 0000 		call __mulsf3
+ 1041 00a4 9B01      		movw r18,r22
+ 1042 00a6 AC01      		movw r20,r24
+ 1043 00a8 C701      		movw r24,r14
+ 1044 00aa B601      		movw r22,r12
+ 1045 00ac 0E94 0000 		call __subsf3
+ 1046 00b0 20E0      		ldi r18,0
+ 1047 00b2 30E0      		ldi r19,0
+ 1048 00b4 40E8      		ldi r20,lo8(-128)
+ 1049 00b6 50E4      		ldi r21,lo8(64)
+ 1050 00b8 0E94 0000 		call __subsf3
+ 1051 00bc 162F      		mov r17,r22
+ 1052 00be 072F      		mov r16,r23
+ 1053 00c0 782E      		mov r7,r24
+ 1054 00c2 692E      		mov r6,r25
+ 1055               	.LBE120:
+ 1056               	.LBE119:
+ 1057               	.LBE118:
+ 1058               	.LBE117:
+ 1060               	.Ltext48:
+ 1062               	.LM111:
+ 1063 00c4 5F92      		push r5
+ 1064 00c6 4F92      		push r4
+ 1065 00c8 3F92      		push r3
+ 1066 00ca 2F92      		push r2
   43:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/main.c ****         humidity_data_com = (temperature_data - 25) * (0.01 + 0.00008 * humidityLin) + humidity_dat
- 1072               	.LM112:
- 1073 00d4 20E0      		ldi r18,0
- 1074 00d6 30E0      		ldi r19,0
- 1075 00d8 48EC      		ldi r20,lo8(-56)
- 1076 00da 51E4      		ldi r21,lo8(65)
- 1077 00dc 622D      		mov r22,r2
- 1078 00de 732D      		mov r23,r3
- 1079 00e0 842D      		mov r24,r4
- 1080 00e2 952D      		mov r25,r5
- 1081 00e4 0E94 0000 		call __subsf3
- 1082 00e8 6B01      		movw r12,r22
- 1083 00ea 7C01      		movw r14,r24
- 1084 00ec 2CEA      		ldi r18,lo8(-84)
- 1085 00ee 35EC      		ldi r19,lo8(-59)
- 1086 00f0 47EA      		ldi r20,lo8(-89)
- 1087 00f2 58E3      		ldi r21,lo8(56)
- 1088 00f4 C501      		movw r24,r10
- 1089 00f6 B401      		movw r22,r8
- 1090 00f8 0E94 0000 		call __mulsf3
- 1091 00fc 2AE0      		ldi r18,lo8(10)
- 1092 00fe 37ED      		ldi r19,lo8(-41)
- 1093 0100 43E2      		ldi r20,lo8(35)
- 1094 0102 5CE3      		ldi r21,lo8(60)
- 1095 0104 0E94 0000 		call __addsf3
- 1096 0108 9B01      		movw r18,r22
- 1097 010a AC01      		movw r20,r24
- 1098 010c C701      		movw r24,r14
- 1099 010e B601      		movw r22,r12
- 1100 0110 0E94 0000 		call __mulsf3
- 1101 0114 D801      		movw r26,r16
- 1102 0116 F301      		movw r30,r6
- 1103 0118 2B2F      		mov r18,r27
- 1104 011a 3A2F      		mov r19,r26
- 1105 011c 4F2F      		mov r20,r31
- 1106 011e 5E2F      		mov r21,r30
- 1107 0120 0E94 0000 		call __addsf3
- 1109               	.LM113:
- 1110 0124 9F93      		push r25
- 1111 0126 8F93      		push r24
- 1112 0128 7F93      		push r23
- 1113 012a 6F93      		push r22
- 1114 012c 6F92      		push r6
- 1115 012e 7F92      		push r7
- 1116 0130 0F93      		push r16
- 1117 0132 1F93      		push r17
- 1118 0134 DF93      		push r29
- 1119 0136 CF93      		push r28
- 1120 0138 0E94 0000 		call printf
+ 1068               	.LM112:
+ 1069 00cc 20E0      		ldi r18,0
+ 1070 00ce 30E0      		ldi r19,0
+ 1071 00d0 48EC      		ldi r20,lo8(-56)
+ 1072 00d2 51E4      		ldi r21,lo8(65)
+ 1073 00d4 622D      		mov r22,r2
+ 1074 00d6 732D      		mov r23,r3
+ 1075 00d8 842D      		mov r24,r4
+ 1076 00da 952D      		mov r25,r5
+ 1077 00dc 0E94 0000 		call __subsf3
+ 1078 00e0 6B01      		movw r12,r22
+ 1079 00e2 7C01      		movw r14,r24
+ 1080 00e4 2CEA      		ldi r18,lo8(-84)
+ 1081 00e6 35EC      		ldi r19,lo8(-59)
+ 1082 00e8 47EA      		ldi r20,lo8(-89)
+ 1083 00ea 58E3      		ldi r21,lo8(56)
+ 1084 00ec C501      		movw r24,r10
+ 1085 00ee B401      		movw r22,r8
+ 1086 00f0 0E94 0000 		call __mulsf3
+ 1087 00f4 2AE0      		ldi r18,lo8(10)
+ 1088 00f6 37ED      		ldi r19,lo8(-41)
+ 1089 00f8 43E2      		ldi r20,lo8(35)
+ 1090 00fa 5CE3      		ldi r21,lo8(60)
+ 1091 00fc 0E94 0000 		call __addsf3
+ 1092 0100 9B01      		movw r18,r22
+ 1093 0102 AC01      		movw r20,r24
+ 1094 0104 C701      		movw r24,r14
+ 1095 0106 B601      		movw r22,r12
+ 1096 0108 0E94 0000 		call __mulsf3
+ 1097 010c D801      		movw r26,r16
+ 1098 010e F301      		movw r30,r6
+ 1099 0110 2B2F      		mov r18,r27
+ 1100 0112 3A2F      		mov r19,r26
+ 1101 0114 4F2F      		mov r20,r31
+ 1102 0116 5E2F      		mov r21,r30
+ 1103 0118 0E94 0000 		call __addsf3
+ 1105               	.LM113:
+ 1106 011c 9F93      		push r25
+ 1107 011e 8F93      		push r24
+ 1108 0120 7F93      		push r23
+ 1109 0122 6F93      		push r22
+ 1110 0124 6F92      		push r6
+ 1111 0126 7F92      		push r7
+ 1112 0128 0F93      		push r16
+ 1113 012a 1F93      		push r17
+ 1114 012c DF93      		push r29
+ 1115 012e CF93      		push r28
+ 1116 0130 0E94 0000 		call printf
   45:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/main.c ****                (double)humidity_data, (double)humidity_data_com, (double)temperature_data);
   46:/Users/atakane/Documents/Electronics/avrSHT/avrSHT/main.c ****         reset();
- 1122               	.LM114:
- 1123 013c 0E94 0000 		call reset
- 1124               	.LBB121:
- 1125               	.LBB122:
- 1127               	.Ltext49:
+ 1118               	.LM114:
+ 1119 0134 0E94 0000 		call reset
+ 1120               	.LBB121:
+ 1121               	.LBB122:
+ 1123               	.Ltext49:
  163:/usr/local/CrossPack-AVR-20131216/avr/include/util/delay.h **** 	__builtin_avr_delay_cycles(__ticks_dc);
- 1129               	.LM115:
- 1130 0140 8FEF      		ldi r24,lo8(3199999)
- 1131 0142 93ED      		ldi r25,hi8(3199999)
- 1132 0144 20E3      		ldi r18,hlo8(3199999)
- 1133 0146 8150      		1: subi r24,1
- 1134 0148 9040      		sbci r25,0
- 1135 014a 2040      		sbci r18,0
- 1136 014c 01F4      		brne 1b
- 1137 014e 00C0      		rjmp .
- 1138 0150 0000      		nop
- 1139 0152 8DB7      		in r24,__SP_L__
- 1140 0154 9EB7      		in r25,__SP_H__
- 1141 0156 0E96      		adiw r24,14
- 1142 0158 0FB6      		in __tmp_reg__,__SREG__
- 1143 015a F894      		cli
- 1144 015c 9EBF      		out __SP_H__,r25
- 1145 015e 0FBE      		out __SREG__,__tmp_reg__
- 1146 0160 8DBF      		out __SP_L__,r24
- 1147 0162 00C0      		rjmp .L42
- 1148               	.LBE122:
- 1149               	.LBE121:
- 1154               	.Lscope10:
- 1155               	.global	uart_output
- 1156               		.data
- 1159               	uart_output:
- 1160 0000 0000 00   		.zero	3
- 1161 0003 02        		.byte	2
- 1162 0004 0000 0000 		.zero	4
- 1163 0008 0000      		.word	gs(send_uart_char)
- 1164 000a 0000      		.word	0
- 1165 000c 0000      		.word	0
- 1167               		.text
- 1169               	.Letext0:
- 1170               		.ident	"GCC: (GNU) 4.8.1"
- 1171               	.global __do_copy_data
+ 1125               	.LM115:
+ 1126 0138 9FEF      		ldi r25,lo8(1599999)
+ 1127 013a 29E6      		ldi r18,hi8(1599999)
+ 1128 013c 88E1      		ldi r24,hlo8(1599999)
+ 1129 013e 9150      		1: subi r25,1
+ 1130 0140 2040      		sbci r18,0
+ 1131 0142 8040      		sbci r24,0
+ 1132 0144 01F4      		brne 1b
+ 1133 0146 00C0      		rjmp .
+ 1134 0148 0000      		nop
+ 1135 014a 8DB7      		in r24,__SP_L__
+ 1136 014c 9EB7      		in r25,__SP_H__
+ 1137 014e 0E96      		adiw r24,14
+ 1138 0150 0FB6      		in __tmp_reg__,__SREG__
+ 1139 0152 F894      		cli
+ 1140 0154 9EBF      		out __SP_H__,r25
+ 1141 0156 0FBE      		out __SREG__,__tmp_reg__
+ 1142 0158 8DBF      		out __SP_L__,r24
+ 1143 015a 00C0      		rjmp .L42
+ 1144               	.LBE122:
+ 1145               	.LBE121:
+ 1150               	.Lscope10:
+ 1151               	.global	uart_output
+ 1152               		.data
+ 1155               	uart_output:
+ 1156 0000 0000 00   		.zero	3
+ 1157 0003 02        		.byte	2
+ 1158 0004 0000 0000 		.zero	4
+ 1159 0008 0000      		.word	gs(send_uart_char)
+ 1160 000a 0000      		.word	0
+ 1161 000c 0000      		.word	0
+ 1163               		.text
+ 1165               	.Letext0:
+ 1166               		.ident	"GCC: (GNU) 4.8.1"
+ 1167               	.global __do_copy_data
 DEFINED SYMBOLS
                             *ABS*:00000000 main.c
-/var/folders/2t/x0mw6nss4_z3npyvmny7gnnm0000gn/T//ccl0nzGt.s:2      *ABS*:0000003e __SP_H__
-/var/folders/2t/x0mw6nss4_z3npyvmny7gnnm0000gn/T//ccl0nzGt.s:3      *ABS*:0000003d __SP_L__
-/var/folders/2t/x0mw6nss4_z3npyvmny7gnnm0000gn/T//ccl0nzGt.s:4      *ABS*:0000003f __SREG__
-/var/folders/2t/x0mw6nss4_z3npyvmny7gnnm0000gn/T//ccl0nzGt.s:5      *ABS*:00000000 __tmp_reg__
-/var/folders/2t/x0mw6nss4_z3npyvmny7gnnm0000gn/T//ccl0nzGt.s:6      *ABS*:00000001 __zero_reg__
-/var/folders/2t/x0mw6nss4_z3npyvmny7gnnm0000gn/T//ccl0nzGt.s:114    .text:00000000 send_uart_char
-/var/folders/2t/x0mw6nss4_z3npyvmny7gnnm0000gn/T//ccl0nzGt.s:153    .text:0000001e initialize_transmisson
-/var/folders/2t/x0mw6nss4_z3npyvmny7gnnm0000gn/T//ccl0nzGt.s:277    .text:00000062 send_command
-/var/folders/2t/x0mw6nss4_z3npyvmny7gnnm0000gn/T//ccl0nzGt.s:450    .text:000000da reset
-/var/folders/2t/x0mw6nss4_z3npyvmny7gnnm0000gn/T//ccl0nzGt.s:522    .text:00000102 calculateMeasuredData
-/var/folders/2t/x0mw6nss4_z3npyvmny7gnnm0000gn/T//ccl0nzGt.s:629    .text:000001a4 serial_init
-/var/folders/2t/x0mw6nss4_z3npyvmny7gnnm0000gn/T//ccl0nzGt.s:656    .text:000001b8 receiveBytes
-/var/folders/2t/x0mw6nss4_z3npyvmny7gnnm0000gn/T//ccl0nzGt.s:748    .text:000001fa ack
-/var/folders/2t/x0mw6nss4_z3npyvmny7gnnm0000gn/T//ccl0nzGt.s:824    .text:00000224 read_data
-/var/folders/2t/x0mw6nss4_z3npyvmny7gnnm0000gn/T//ccl0nzGt.s:898    .text.startup:00000000 main
-/var/folders/2t/x0mw6nss4_z3npyvmny7gnnm0000gn/T//ccl0nzGt.s:1159   .data:00000000 uart_output
+/var/folders/2t/x0mw6nss4_z3npyvmny7gnnm0000gn/T//ccEpbRMJ.s:2      *ABS*:0000003e __SP_H__
+/var/folders/2t/x0mw6nss4_z3npyvmny7gnnm0000gn/T//ccEpbRMJ.s:3      *ABS*:0000003d __SP_L__
+/var/folders/2t/x0mw6nss4_z3npyvmny7gnnm0000gn/T//ccEpbRMJ.s:4      *ABS*:0000003f __SREG__
+/var/folders/2t/x0mw6nss4_z3npyvmny7gnnm0000gn/T//ccEpbRMJ.s:5      *ABS*:00000000 __tmp_reg__
+/var/folders/2t/x0mw6nss4_z3npyvmny7gnnm0000gn/T//ccEpbRMJ.s:6      *ABS*:00000001 __zero_reg__
+/var/folders/2t/x0mw6nss4_z3npyvmny7gnnm0000gn/T//ccEpbRMJ.s:114    .text:00000000 send_uart_char
+/var/folders/2t/x0mw6nss4_z3npyvmny7gnnm0000gn/T//ccEpbRMJ.s:153    .text:0000001e initialize_transmisson
+/var/folders/2t/x0mw6nss4_z3npyvmny7gnnm0000gn/T//ccEpbRMJ.s:277    .text:00000062 send_command
+/var/folders/2t/x0mw6nss4_z3npyvmny7gnnm0000gn/T//ccEpbRMJ.s:450    .text:000000da reset
+/var/folders/2t/x0mw6nss4_z3npyvmny7gnnm0000gn/T//ccEpbRMJ.s:522    .text:00000102 calculateMeasuredData
+/var/folders/2t/x0mw6nss4_z3npyvmny7gnnm0000gn/T//ccEpbRMJ.s:629    .text:000001a4 serial_init
+/var/folders/2t/x0mw6nss4_z3npyvmny7gnnm0000gn/T//ccEpbRMJ.s:656    .text:000001b8 receiveBytes
+/var/folders/2t/x0mw6nss4_z3npyvmny7gnnm0000gn/T//ccEpbRMJ.s:748    .text:000001fa ack
+/var/folders/2t/x0mw6nss4_z3npyvmny7gnnm0000gn/T//ccEpbRMJ.s:824    .text:00000224 read_data
+/var/folders/2t/x0mw6nss4_z3npyvmny7gnnm0000gn/T//ccEpbRMJ.s:898    .text.startup:00000000 main
+/var/folders/2t/x0mw6nss4_z3npyvmny7gnnm0000gn/T//ccEpbRMJ.s:1155   .data:00000000 uart_output
 
 UNDEFINED SYMBOLS
 __floatunsisf
