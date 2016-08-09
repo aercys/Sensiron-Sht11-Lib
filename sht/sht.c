@@ -2,8 +2,8 @@
 //  sht.c
 //  avrSHT
 //
-//  Created by Atakan ERCIYAS on 10/08/16.
-//  Copyright © 2016 Atakan ERCIYAS. All rights reserved.
+//  Created by aercys on 10/08/16.
+//  Copyright © 2016 aercys. All rights reserved.
 //
 
 #include <stdio.h>
