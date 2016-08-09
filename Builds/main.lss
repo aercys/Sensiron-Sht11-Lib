@@ -11,17 +11,17 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   ALLOC
   3 .stab         00000e4c  00000000  00000000  00001444  2**2
                   CONTENTS, READONLY, DEBUGGING
-  4 .stabstr      00000ff8  00000000  00000000  00002290  2**0
+  4 .stabstr      00001002  00000000  00000000  00002290  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .comment      00000011  00000000  00000000  00003288  2**0
+  5 .comment      00000011  00000000  00000000  00003292  2**0
                   CONTENTS, READONLY
-  6 .debug_aranges 000000a0  00000000  00000000  000032a0  2**3
+  6 .debug_aranges 000000a0  00000000  00000000  000032a8  2**3
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_info   000003b6  00000000  00000000  00003340  2**0
+  7 .debug_info   000003b6  00000000  00000000  00003348  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_abbrev 00000064  00000000  00000000  000036f6  2**0
+  8 .debug_abbrev 00000064  00000000  00000000  000036fe  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_line   000001fe  00000000  00000000  0000375a  2**0
+  9 .debug_line   000001fe  00000000  00000000  00003762  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -365,13 +365,13 @@ void reset() {
     initialize_transmisson();
      2a6:	0c 94 e3 00 	jmp	0x1c6	; 0x1c6 <initialize_transmisson>
 
-000002aa <calculateMeasuredData>:
+000002aa <calculate_measured_data>:
     
-    measured = (dataH << 8) | dataL;
+    measured = (data_h << 8) | data_l;
     return measured;
 }
 
-float calculateMeasuredData(uint16_t measuredData, uint8_t value) {
+float calculate_measured_data(uint16_t measured_data, uint8_t value) {
      2aa:	8f 92       	push	r8
      2ac:	9f 92       	push	r9
      2ae:	af 92       	push	r10
@@ -380,15 +380,15 @@ float calculateMeasuredData(uint16_t measuredData, uint8_t value) {
      2b4:	df 92       	push	r13
      2b6:	ef 92       	push	r14
      2b8:	ff 92       	push	r15
-    float humiLin, tempLin;
+    float _humidity, _temperature;
     
     switch (value) {
      2ba:	63 30       	cpi	r22, 0x03	; 3
-     2bc:	41 f1       	breq	.+80     	; 0x30e <calculateMeasuredData+0x64>
+     2bc:	41 f1       	breq	.+80     	; 0x30e <calculate_measured_data+0x64>
      2be:	65 30       	cpi	r22, 0x05	; 5
-     2c0:	c1 f5       	brne	.+112    	; 0x332 <calculateMeasuredData+0x88>
+     2c0:	c1 f5       	brne	.+112    	; 0x332 <calculate_measured_data+0x88>
         case humidity:
-            humiLin = measuredData * 0.0405 - 2.8 * pow(10, -6) * pow(measuredData, 2) - 4;
+            _humidity = measured_data * 0.0405 - 2.8 * pow(10, -6) * pow(measured_data, 2) - 4;
      2c2:	bc 01       	movw	r22, r24
      2c4:	80 e0       	ldi	r24, 0x00	; 0
      2c6:	90 e0       	ldi	r25, 0x00	; 0
@@ -421,11 +421,11 @@ float calculateMeasuredData(uint16_t measuredData, uint8_t value) {
      306:	30 e0       	ldi	r19, 0x00	; 0
      308:	40 e8       	ldi	r20, 0x80	; 128
      30a:	50 e4       	ldi	r21, 0x40	; 64
-     30c:	0f c0       	rjmp	.+30     	; 0x32c <calculateMeasuredData+0x82>
-            return humiLin;
+     30c:	0f c0       	rjmp	.+30     	; 0x32c <calculate_measured_data+0x82>
+            return _humidity;
             break;
         case temperature:
-            tempLin = -40.00 + 0.01 * measuredData;
+            _temperature = -40.00 + 0.01 * measured_data;
      30e:	bc 01       	movw	r22, r24
      310:	80 e0       	ldi	r24, 0x00	; 0
      312:	90 e0       	ldi	r25, 0x00	; 0
@@ -440,8 +440,8 @@ float calculateMeasuredData(uint16_t measuredData, uint8_t value) {
      328:	40 e2       	ldi	r20, 0x20	; 32
      32a:	52 e4       	ldi	r21, 0x42	; 66
      32c:	0e 94 74 06 	call	0xce8	; 0xce8 <__subsf3>
-            return tempLin;
-     330:	04 c0       	rjmp	.+8      	; 0x33a <calculateMeasuredData+0x90>
+            return _temperature;
+     330:	04 c0       	rjmp	.+8      	; 0x33a <calculate_measured_data+0x90>
             break;
     }
     
@@ -478,13 +478,13 @@ float calculateMeasuredData(uint16_t measuredData, uint8_t value) {
      35a:	80 93 c2 00 	sts	0x00C2, r24
      35e:	08 95       	ret
 
-00000360 <receiveBytes>:
+00000360 <receive_bytes>:
     
     while (!(UCSR0A & (1 << UDRE0)));
     UDR0 = serial_data;
 }
 
-void receiveBytes(uint8_t *target) {
+void receive_bytes(uint8_t *target) {
      360:	fc 01       	movw	r30, r24
      362:	27 e0       	ldi	r18, 0x07	; 7
      364:	30 e0       	ldi	r19, 0x00	; 0
@@ -499,35 +499,35 @@ void receiveBytes(uint8_t *target) {
     UDR0 = serial_data;
 }
 
-void receiveBytes(uint8_t *target) {
+void receive_bytes(uint8_t *target) {
     for (int i = 0; i < 8; i++) {
         sck_high;
      36a:	29 9a       	sbi	0x05, 1	; 5
      36c:	4a e0       	ldi	r20, 0x0A	; 10
      36e:	4a 95       	dec	r20
-     370:	f1 f7       	brne	.-4      	; 0x36e <receiveBytes+0xe>
-     372:	00 c0       	rjmp	.+0      	; 0x374 <receiveBytes+0x14>
+     370:	f1 f7       	brne	.-4      	; 0x36e <receive_bytes+0xe>
+     372:	00 c0       	rjmp	.+0      	; 0x374 <receive_bytes+0x14>
      374:	60 81       	ld	r22, Z
         _delay_us(4);
         if ((PINB & (1 << PINB0))) {
             *target |= (1 << (7 - i));
      376:	ac 01       	movw	r20, r24
      378:	02 2e       	mov	r0, r18
-     37a:	01 c0       	rjmp	.+2      	; 0x37e <receiveBytes+0x1e>
+     37a:	01 c0       	rjmp	.+2      	; 0x37e <receive_bytes+0x1e>
      37c:	44 0f       	add	r20, r20
      37e:	0a 94       	dec	r0
-     380:	ea f7       	brpl	.-6      	; 0x37c <receiveBytes+0x1c>
+     380:	ea f7       	brpl	.-6      	; 0x37c <receive_bytes+0x1c>
 
-void receiveBytes(uint8_t *target) {
+void receive_bytes(uint8_t *target) {
     for (int i = 0; i < 8; i++) {
         sck_high;
         _delay_us(4);
         if ((PINB & (1 << PINB0))) {
      382:	18 9b       	sbis	0x03, 0	; 3
-     384:	02 c0       	rjmp	.+4      	; 0x38a <receiveBytes+0x2a>
+     384:	02 c0       	rjmp	.+4      	; 0x38a <receive_bytes+0x2a>
             *target |= (1 << (7 - i));
      386:	46 2b       	or	r20, r22
-     388:	02 c0       	rjmp	.+4      	; 0x38e <receiveBytes+0x2e>
+     388:	02 c0       	rjmp	.+4      	; 0x38e <receive_bytes+0x2e>
         } else {
             *target &= ~(1 << (7 - i));
      38a:	40 95       	com	r20
@@ -538,11 +538,11 @@ void receiveBytes(uint8_t *target) {
      390:	29 98       	cbi	0x05, 1	; 5
      392:	4a e0       	ldi	r20, 0x0A	; 10
      394:	4a 95       	dec	r20
-     396:	f1 f7       	brne	.-4      	; 0x394 <receiveBytes+0x34>
-     398:	00 c0       	rjmp	.+0      	; 0x39a <receiveBytes+0x3a>
+     396:	f1 f7       	brne	.-4      	; 0x394 <receive_bytes+0x34>
+     398:	00 c0       	rjmp	.+0      	; 0x39a <receive_bytes+0x3a>
      39a:	21 50       	subi	r18, 0x01	; 1
      39c:	31 09       	sbc	r19, r1
-     39e:	28 f7       	brcc	.-54     	; 0x36a <receiveBytes+0xa>
+     39e:	28 f7       	brcc	.-54     	; 0x36a <receive_bytes+0xa>
         _delay_us(4);
     }
 }
@@ -594,11 +594,11 @@ uint16_t read_data() {
      3d0:	00 d0       	rcall	.+0      	; 0x3d2 <read_data+0x6>
      3d2:	cd b7       	in	r28, 0x3d	; 61
      3d4:	de b7       	in	r29, 0x3e	; 62
-    uint8_t dataL, dataH;
+    uint8_t data_l, data_h;
     uint16_t measured;
-    dataL = 0x00;
+    data_l = 0x00;
      3d6:	1a 82       	std	Y+2, r1	; 0x02
-    dataH = 0x00;
+    data_h = 0x00;
      3d8:	19 82       	std	Y+1, r1	; 0x01
     data_in;
      3da:	8e ef       	ldi	r24, 0xFE	; 254
@@ -610,19 +610,19 @@ uint16_t read_data() {
      3e0:	18 99       	sbic	0x03, 0	; 3
      3e2:	fe cf       	rjmp	.-4      	; 0x3e0 <read_data+0x14>
     //Start receiving MSB
-    receiveBytes(&dataH);
+    receive_bytes(&data_h);
      3e4:	ce 01       	movw	r24, r28
      3e6:	01 96       	adiw	r24, 0x01	; 1
-     3e8:	0e 94 b0 01 	call	0x360	; 0x360 <receiveBytes>
+     3e8:	0e 94 b0 01 	call	0x360	; 0x360 <receive_bytes>
     ack(); // ack() to start getting LSB
      3ec:	0e 94 d1 01 	call	0x3a2	; 0x3a2 <ack>
     //Start receiving LSB
-    receiveBytes(&dataL);
+    receive_bytes(&data_l);
      3f0:	ce 01       	movw	r24, r28
      3f2:	02 96       	adiw	r24, 0x02	; 2
-     3f4:	0e 94 b0 01 	call	0x360	; 0x360 <receiveBytes>
+     3f4:	0e 94 b0 01 	call	0x360	; 0x360 <receive_bytes>
     
-    measured = (dataH << 8) | dataL;
+    measured = (data_h << 8) | data_l;
      3f8:	89 81       	ldd	r24, Y+1	; 0x01
      3fa:	90 e0       	ldi	r25, 0x00	; 0
      3fc:	98 2f       	mov	r25, r24
@@ -637,13 +637,13 @@ uint16_t read_data() {
      40a:	cf 91       	pop	r28
      40c:	08 95       	ret
 
-0000040e <shtSense>:
+0000040e <sht_sense>:
     }
     
     return 1;
 }
 
-SHTData shtSense() {
+sht_data sht_sense() {
      40e:	4f 92       	push	r4
      410:	5f 92       	push	r5
      412:	6f 92       	push	r6
@@ -659,13 +659,13 @@ SHTData shtSense() {
      426:	1f 93       	push	r17
      428:	cf 93       	push	r28
      42a:	df 93       	push	r29
-     42c:	00 d0       	rcall	.+0      	; 0x42e <shtSense+0x20>
-     42e:	00 d0       	rcall	.+0      	; 0x430 <shtSense+0x22>
+     42c:	00 d0       	rcall	.+0      	; 0x42e <sht_sense+0x20>
+     42e:	00 d0       	rcall	.+0      	; 0x430 <sht_sense+0x22>
      430:	cd b7       	in	r28, 0x3d	; 61
      432:	de b7       	in	r29, 0x3e	; 62
     uint8_t _temperature, _humidity;
     uint16_t __humidity;
-    SHTData data;
+    sht_data data;
     initialize_transmisson();   // Initilize the sensor to send command
      434:	0e 94 e3 00 	call	0x1c6	; 0x1c6 <initialize_transmisson>
     send_command(temperature);
@@ -673,17 +673,17 @@ SHTData shtSense() {
      43a:	0e 94 05 01 	call	0x20a	; 0x20a <send_command>
      43e:	25 ed       	ldi	r18, 0xD5	; 213
      440:	2a 95       	dec	r18
-     442:	f1 f7       	brne	.-4      	; 0x440 <shtSense+0x32>
+     442:	f1 f7       	brne	.-4      	; 0x440 <sht_sense+0x32>
      444:	00 00       	nop
     _delay_us(80);              // Wait for measurement to complete
-    _temperature = calculateMeasuredData(read_data(), temperature);
+    _temperature = calculate_measured_data(read_data(), temperature);
      446:	0e 94 e6 01 	call	0x3cc	; 0x3cc <read_data>
         case humidity:
-            humiLin = measuredData * 0.0405 - 2.8 * pow(10, -6) * pow(measuredData, 2) - 4;
-            return humiLin;
+            _humidity = measured_data * 0.0405 - 2.8 * pow(10, -6) * pow(measured_data, 2) - 4;
+            return _humidity;
             break;
         case temperature:
-            tempLin = -40.00 + 0.01 * measuredData;
+            _temperature = -40.00 + 0.01 * measured_data;
      44a:	bc 01       	movw	r22, r24
      44c:	80 e0       	ldi	r24, 0x00	; 0
      44e:	90 e0       	ldi	r25, 0x00	; 0
@@ -699,11 +699,11 @@ SHTData shtSense() {
      466:	52 e4       	ldi	r21, 0x42	; 66
      468:	0e 94 74 06 	call	0xce8	; 0xce8 <__subsf3>
     uint16_t __humidity;
-    SHTData data;
+    sht_data data;
     initialize_transmisson();   // Initilize the sensor to send command
     send_command(temperature);
     _delay_us(80);              // Wait for measurement to complete
-    _temperature = calculateMeasuredData(read_data(), temperature);
+    _temperature = calculate_measured_data(read_data(), temperature);
      46c:	0e 94 d9 06 	call	0xdb2	; 0xdb2 <__fixunssfsi>
      470:	16 2f       	mov	r17, r22
     reset();
@@ -713,17 +713,17 @@ SHTData shtSense() {
      478:	0e 94 05 01 	call	0x20a	; 0x20a <send_command>
      47c:	35 ed       	ldi	r19, 0xD5	; 213
      47e:	3a 95       	dec	r19
-     480:	f1 f7       	brne	.-4      	; 0x47e <shtSense+0x70>
+     480:	f1 f7       	brne	.-4      	; 0x47e <sht_sense+0x70>
      482:	00 00       	nop
     _delay_us(80);
     __humidity = read_data();
      484:	0e 94 e6 01 	call	0x3cc	; 0x3cc <read_data>
-float calculateMeasuredData(uint16_t measuredData, uint8_t value) {
-    float humiLin, tempLin;
+float calculate_measured_data(uint16_t measured_data, uint8_t value) {
+    float _humidity, _temperature;
     
     switch (value) {
         case humidity:
-            humiLin = measuredData * 0.0405 - 2.8 * pow(10, -6) * pow(measuredData, 2) - 4;
+            _humidity = measured_data * 0.0405 - 2.8 * pow(10, -6) * pow(measured_data, 2) - 4;
      488:	bc 01       	movw	r22, r24
      48a:	80 e0       	ldi	r24, 0x00	; 0
      48c:	90 e0       	ldi	r25, 0x00	; 0
@@ -734,7 +734,7 @@ float calculateMeasuredData(uint16_t measuredData, uint8_t value) {
     send_command(humidity);
     _delay_us(80);
     __humidity = read_data();
-    _humidity = calculateMeasuredData(__humidity, humidity);
+    _humidity = calculate_measured_data(__humidity, humidity);
     _humidity = (_temperature - 25) * (0.01 + 0.00008 * __humidity) + _humidity;
      496:	61 2f       	mov	r22, r17
      498:	70 e0       	ldi	r23, 0x00	; 0
@@ -766,12 +766,12 @@ float calculateMeasuredData(uint16_t measuredData, uint8_t value) {
      4d2:	0e 94 93 07 	call	0xf26	; 0xf26 <__mulsf3>
      4d6:	4b 01       	movw	r8, r22
      4d8:	5c 01       	movw	r10, r24
-float calculateMeasuredData(uint16_t measuredData, uint8_t value) {
-    float humiLin, tempLin;
+float calculate_measured_data(uint16_t measured_data, uint8_t value) {
+    float _humidity, _temperature;
     
     switch (value) {
         case humidity:
-            humiLin = measuredData * 0.0405 - 2.8 * pow(10, -6) * pow(measuredData, 2) - 4;
+            _humidity = measured_data * 0.0405 - 2.8 * pow(10, -6) * pow(measured_data, 2) - 4;
      4da:	24 e5       	ldi	r18, 0x54	; 84
      4dc:	33 ee       	ldi	r19, 0xE3	; 227
      4de:	45 e2       	ldi	r20, 0x25	; 37
@@ -801,12 +801,12 @@ float calculateMeasuredData(uint16_t measuredData, uint8_t value) {
      516:	40 e8       	ldi	r20, 0x80	; 128
      518:	50 e4       	ldi	r21, 0x40	; 64
      51a:	0e 94 74 06 	call	0xce8	; 0xce8 <__subsf3>
-    _temperature = calculateMeasuredData(read_data(), temperature);
+    _temperature = calculate_measured_data(read_data(), temperature);
     reset();
     send_command(humidity);
     _delay_us(80);
     __humidity = read_data();
-    _humidity = calculateMeasuredData(__humidity, humidity);
+    _humidity = calculate_measured_data(__humidity, humidity);
      51e:	0e 94 d9 06 	call	0xdb2	; 0xdb2 <__fixunssfsi>
     _humidity = (_temperature - 25) * (0.01 + 0.00008 * __humidity) + _humidity;
      522:	70 e0       	ldi	r23, 0x00	; 0
@@ -836,14 +836,14 @@ float calculateMeasuredData(uint16_t measuredData, uint8_t value) {
      54a:	41 50       	subi	r20, 0x01	; 1
      54c:	e0 40       	sbci	r30, 0x00	; 0
      54e:	f0 40       	sbci	r31, 0x00	; 0
-     550:	e1 f7       	brne	.-8      	; 0x54a <shtSense+0x13c>
-     552:	00 c0       	rjmp	.+0      	; 0x554 <shtSense+0x146>
+     550:	e1 f7       	brne	.-8      	; 0x54a <sht_sense+0x13c>
+     552:	00 c0       	rjmp	.+0      	; 0x554 <sht_sense+0x146>
      554:	00 00       	nop
     reset();
     send_command(humidity);
     _delay_us(80);
     __humidity = read_data();
-    _humidity = calculateMeasuredData(__humidity, humidity);
+    _humidity = calculate_measured_data(__humidity, humidity);
     _humidity = (_temperature - 25) * (0.01 + 0.00008 * __humidity) + _humidity;
      556:	69 81       	ldd	r22, Y+1	; 0x01
      558:	7a 81       	ldd	r23, Y+2	; 0x02
@@ -852,8 +852,8 @@ float calculateMeasuredData(uint16_t measuredData, uint8_t value) {
      55e:	0e 94 d9 06 	call	0xdb2	; 0xdb2 <__fixunssfsi>
      562:	96 2f       	mov	r25, r22
     reset();
-    data.Temperature = _temperature;
-    data.Humidity = _humidity;
+    data._temperature = _temperature;
+    data._humidity = _humidity;
     _delay_ms(100);
     return data;
 }
@@ -903,8 +903,8 @@ int main(void) {
      59e:	90 93 2f 01 	sts	0x012F, r25
      5a2:	80 93 2e 01 	sts	0x012E, r24
     while (1) {
-        SHTData data;
-        data = shtSense();
+        sht_data data;
+        data = sht_sense();
         printf("Humidity: %.2f, Temp: %.2f \n",
      5a6:	ce e0       	ldi	r28, 0x0E	; 14
      5a8:	d1 e0       	ldi	r29, 0x01	; 1
@@ -912,9 +912,9 @@ int main(void) {
     serial_init();
     stdout = &uart_output; // Assign output
     while (1) {
-        SHTData data;
-        data = shtSense();
-     5aa:	0e 94 07 02 	call	0x40e	; 0x40e <shtSense>
+        sht_data data;
+        data = sht_sense();
+     5aa:	0e 94 07 02 	call	0x40e	; 0x40e <sht_sense>
      5ae:	19 2f       	mov	r17, r25
         printf("Humidity: %.2f, Temp: %.2f \n",
      5b0:	68 2f       	mov	r22, r24

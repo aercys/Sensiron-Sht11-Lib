@@ -31,9 +31,9 @@
 
 // SHT Data type
 typedef struct {
-    uint8_t Temperature;
-    uint8_t Humidity;
-} SHTData;
+    uint8_t _temperature;
+    uint8_t _humidity;
+} sht_data;
 
 
 
@@ -45,10 +45,10 @@ void reset(void);
 void serial_init(void);
 uint16_t read_data(void);
 void send_uart_char(unsigned char serial_data, FILE *stream);
-float calculateMeasuredData(uint16_t measuredData, uint8_t value);
-void receiveBytes(uint8_t *target);
+float calculate_measured_data(uint16_t measured_data, uint8_t value);
+void receive_bytes(uint8_t *target);
 void ack(void);
-SHTData shtSense(void);
+sht_data sht_sense(void);
 
 FILE uart_output = FDEV_SETUP_STREAM(send_uart_char, NULL, _FDEV_SETUP_WRITE);
 

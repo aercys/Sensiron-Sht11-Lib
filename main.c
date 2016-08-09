@@ -25,10 +25,10 @@ int main(void) {
     serial_init();
     stdout = &uart_output; // Assign output
     while (1) {
-        SHTData data;
-        data = shtSense();
+        sht_data data;
+        data = sht_sense();
         printf("Humidity: %.2f, Temp: %.2f \n",
-               (double)data.Humidity, (double)data.Temperature);
+               (double)data._humidity, (double)data._temperature);
     }
     
     return 0; // never reached

@@ -79,58 +79,58 @@ void reset() {
 
 
 uint16_t read_data() {
-    uint8_t dataL, dataH;
+    uint8_t data_l, data_h;
     uint16_t measured;
-    dataL = 0x00;
-    dataH = 0x00;
+    data_l = 0x00;
+    data_h = 0x00;
     data_in;
     data_high;
     
     while (PINB & (1<<DATA));
     //Start receiving MSB
-    receiveBytes(&dataH);
+    receive_bytes(&data_h);
     ack(); // ack() to start getting LSB
     //Start receiving LSB
-    receiveBytes(&dataL);
+    receive_bytes(&data_l);
     
-    measured = (dataH << 8) | dataL;
+    measured = (data_h << 8) | data_l;
     return measured;
 }
 
-float calculateMeasuredData(uint16_t measuredData, uint8_t value) {
-    float humiLin, tempLin;
+float calculate_measured_data(uint16_t measured_data, uint8_t value) {
+    float _humidity, _temperature;
     
     switch (value) {
         case humidity:
-            humiLin = measuredData * 0.0405 - 2.8 * pow(10, -6) * pow(measuredData, 2) - 4;
-            return humiLin;
+            _humidity = measured_data * 0.0405 - 2.8 * pow(10, -6) * pow(measured_data, 2) - 4;
+            return _humidity;
             break;
         case temperature:
-            tempLin = -40.00 + 0.01 * measuredData;
-            return tempLin;
+            _temperature = -40.00 + 0.01 * measured_data;
+            return _temperature;
             break;
     }
     
     return 1;
 }
 
-SHTData shtSense() {
+sht_data sht_sense() {
     uint8_t _temperature, _humidity;
     uint16_t __humidity;
-    SHTData data;
+    sht_data data;
     initialize_transmisson();   // Initilize the sensor to send command
     send_command(temperature);
     _delay_us(80);              // Wait for measurement to complete
-    _temperature = calculateMeasuredData(read_data(), temperature);
+    _temperature = calculate_measured_data(read_data(), temperature);
     reset();
     send_command(humidity);
     _delay_us(80);
     __humidity = read_data();
-    _humidity = calculateMeasuredData(__humidity, humidity);
+    _humidity = calculate_measured_data(__humidity, humidity);
     _humidity = (_temperature - 25) * (0.01 + 0.00008 * __humidity) + _humidity;
     reset();
-    data.Temperature = _temperature;
-    data.Humidity = _humidity;
+    data._temperature = _temperature;
+    data._humidity = _humidity;
     _delay_ms(100);
     return data;
 }
@@ -158,7 +158,7 @@ void send_uart_char(unsigned char serial_data, FILE *stream) {
     UDR0 = serial_data;
 }
 
-void receiveBytes(uint8_t *target) {
+void receive_bytes(uint8_t *target) {
     for (int i = 0; i < 8; i++) {
         sck_high;
         _delay_us(4);

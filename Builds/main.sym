@@ -69,12 +69,12 @@
 000001c6 T initialize_transmisson
 0000020a T send_command
 00000282 T reset
-000002aa T calculateMeasuredData
+000002aa T calculate_measured_data
 0000034c T serial_init
-00000360 T receiveBytes
+00000360 T receive_bytes
 000003a2 T ack
 000003cc T read_data
-0000040e T shtSense
+0000040e T sht_sense
 0000058e T main
 000005f2 T vfprintf
 000008ff W __stack

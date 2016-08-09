@@ -263,12 +263,12 @@ END GROUP
                 0x000001c6                initialize_transmisson
                 0x0000020a                send_command
                 0x00000282                reset
-                0x000002aa                calculateMeasuredData
+                0x000002aa                calculate_measured_data
                 0x0000034c                serial_init
-                0x00000360                receiveBytes
+                0x00000360                receive_bytes
                 0x000003a2                ack
                 0x000003cc                read_data
-                0x0000040e                shtSense
+                0x0000040e                sht_sense
  .text          0x0000058e        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/libprintf_flt.a(vfprintf_flt.o)
  .text          0x0000058e        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/libm.a(addsf3.o)
  .text          0x0000058e        0x0 /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/libm.a(addsf3x.o)
@@ -570,9 +570,9 @@ END GROUP
  *(.stab)
  .stab          0x00000000      0xe4c Builds/main.o
 
-.stabstr        0x00000000      0xff8
+.stabstr        0x00000000     0x1002
  *(.stabstr)
- .stabstr       0x00000000      0xff8 Builds/main.o
+ .stabstr       0x00000000     0x1002 Builds/main.o
 
 .stab.excl
  *(.stab.excl)
@@ -771,7 +771,7 @@ __vector_default                                  /usr/local/CrossPack-AVR-20131
 __vectors                                         /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/crtm328p.o
 _exit                                             /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr5/libgcc.a(_exit.o)
 ack                                               Builds/main.o
-calculateMeasuredData                             Builds/main.o
+calculate_measured_data                           Builds/main.o
 exit                                              /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/avr5/libgcc.a(_exit.o)
                                                   /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/crtm328p.o
 fputc                                             /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/libc.a(fputc.o)
@@ -782,12 +782,12 @@ main                                              Builds/main.o
 printf                                            /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/libc.a(printf.o)
                                                   Builds/main.o
 read_data                                         Builds/main.o
-receiveBytes                                      Builds/main.o
+receive_bytes                                     Builds/main.o
 reset                                             Builds/main.o
 send_command                                      Builds/main.o
 send_uart_char                                    Builds/main.o
 serial_init                                       Builds/main.o
-shtSense                                          Builds/main.o
+sht_sense                                         Builds/main.o
 strnlen                                           /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/libc.a(strnlen.o)
                                                   /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/libprintf_flt.a(vfprintf_flt.o)
 strnlen_P                                         /usr/local/CrossPack-AVR-20131216/lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/libc.a(strnlen_P.o)
