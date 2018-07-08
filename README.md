@@ -9,3 +9,9 @@ As it can be noticed below, sht_data struct is utilized to hold calculated tempe
 sht_data data;
 data = sht_sense();
 ```
+After successful calculation, temperature and humidity data can be accessed by reading those variables below;
+
+```
+data._temperature
+data._humidity
+```
