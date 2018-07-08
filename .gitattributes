@@ -1,2 +1,2 @@
-*.md linguist-vendored
+Makefile linguist-vendored
 *.c linguist-language=C
